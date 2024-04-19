@@ -1,0 +1,1 @@
+/usr/bin/cc  -fPIE  -std=c99 -fomit-frame-pointer -finline-functions -fno-common -w -fmessage-length=0 -O3 -DNDEBUG -rdynamic CMakeFiles/H5detect.dir/H5detect.c.o -o ../../../bin/H5detect 

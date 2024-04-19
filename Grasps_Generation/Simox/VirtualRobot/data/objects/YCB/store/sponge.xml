@@ -1,0 +1,6 @@
+<ManipulationObject name='sponge'>
+	<Visualization>
+		<File type='inventor'>../stl/sponge.stl</File>
+		<UseAsCollisionModel/>
+	</Visualization>
+</ManipulationObject>

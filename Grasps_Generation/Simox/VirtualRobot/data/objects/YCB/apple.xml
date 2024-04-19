@@ -1,0 +1,6 @@
+<ManipulationObject name='apple'>
+	<Visualization>
+		<File type='inventor'>../stl/apple.stl</File>
+		<UseAsCollisionModel/>
+	</Visualization>
+</ManipulationObject>

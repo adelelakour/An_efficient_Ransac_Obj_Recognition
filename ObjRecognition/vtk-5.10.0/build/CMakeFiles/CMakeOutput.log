@@ -1,0 +1,673 @@
+Performing C++ SOURCE FILE Test Support for 64 bit file systems succeded with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_eaa17/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_eaa17.dir/build.make CMakeFiles/cmTC_eaa17.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_eaa17.dir/src.cxx.o
+/usr/bin/c++   -fPIE -DCMAKE_REQUIRE_LARGE_FILE_SUPPORT -o CMakeFiles/cmTC_eaa17.dir/src.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_eaa17
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_eaa17.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE -DCMAKE_REQUIRE_LARGE_FILE_SUPPORT -rdynamic CMakeFiles/cmTC_eaa17.dir/src.cxx.o -o cmTC_eaa17 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+#define _LARGEFILE_SOURCE
+#define _LARGE_FILES
+#define _FILE_OFFSET_BITS 64
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <assert.h>
+#include <stdio.h>
+
+int main( int, char **argv )
+{
+  // check that off_t can hold 2^63 - 1 and perform basic operations...
+#define OFF_T_64 (((off_t) 1 << 62) - 1 + ((off_t) 1 << 62))
+  if (OFF_T_64 % 2147483647 != 1)
+    return 1;
+
+  // stat breaks on SCO OpenServer
+  struct stat buf;
+  stat( argv[0], &buf );
+  if (!S_ISREG(buf.st_mode))
+    return 2;
+
+  FILE *file = fopen( argv[0], "r" );
+  off_t offset = ftello( file );
+  fseek( file, offset, SEEK_CUR );
+  fclose( file );
+  return 0;
+}
+
+Determining if the C++ compiler supports type bool passed with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/Bool/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_e59ac/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_e59ac.dir/build.make CMakeFiles/cmTC_e59ac.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/Bool/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_e59ac.dir/vtkTestBoolType.cxx.o
+/usr/bin/c++   -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_e59ac.dir/vtkTestBoolType.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/CMake/vtkTestBoolType.cxx
+Linking CXX executable cmTC_e59ac
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e59ac.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_e59ac.dir/vtkTestBoolType.cxx.o -o cmTC_e59ac 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/Bool/CMakeFiles/CMakeTmp'
+
+
+
+Determining if getsockname accepts socklen_t type  passed with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/SocklenT/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_fef5e/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_fef5e.dir/build.make CMakeFiles/cmTC_fef5e.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/SocklenT/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_fef5e.dir/vtkTestSocklenT.cxx.o
+/usr/bin/c++   -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_fef5e.dir/vtkTestSocklenT.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/CMake/vtkTestSocklenT.cxx
+Linking CXX executable cmTC_fef5e
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fef5e.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_fef5e.dir/vtkTestSocklenT.cxx.o -o cmTC_fef5e 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/SocklenT/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the C++ compiler supports full template specialization syntax passed with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_a19ea/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_a19ea.dir/build.make CMakeFiles/cmTC_a19ea.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_a19ea.dir/vtkTestFullSpecialization.cxx.o
+/usr/bin/c++   -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_a19ea.dir/vtkTestFullSpecialization.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/CMake/vtkTestFullSpecialization.cxx
+Linking CXX executable cmTC_a19ea
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a19ea.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_a19ea.dir/vtkTestFullSpecialization.cxx.o -o cmTC_a19ea 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the C++ compiler supports explict template instantiation passed with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -S/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation -B/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build --check-build-system CMakeFiles/Makefile.cmake 0
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_progress_start /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build/CMakeFiles /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build//CMakeFiles/progress.marks
+/usr/bin/gmake  -f CMakeFiles/Makefile2 all
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build'
+/usr/bin/gmake  -f CMakeFiles/A.dir/build.make CMakeFiles/A.dir/depend
+gmake[2]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build'
+cd /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build && /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_depends "Unix Makefiles" /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build/CMakeFiles/A.dir/DependInfo.cmake
+Dependee "/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build/CMakeFiles/A.dir/DependInfo.cmake" is newer than depender "/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build/CMakeFiles/A.dir/depend.internal".
+Dependee "/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build/CMakeFiles/A.dir/depend.internal".
+Scanning dependencies of target A
+gmake[2]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build'
+/usr/bin/gmake  -f CMakeFiles/A.dir/build.make CMakeFiles/A.dir/build
+gmake[2]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build'
+[ 25%] Building CXX object CMakeFiles/A.dir/A.o
+/usr/bin/c++    -o CMakeFiles/A.dir/A.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/A.cxx
+[ 50%] Linking CXX static library libA.a
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -P CMakeFiles/A.dir/cmake_clean_target.cmake
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/A.dir/link.txt --verbose=1
+/usr/bin/ar qc libA.a CMakeFiles/A.dir/A.o
+/usr/bin/ranlib libA.a
+gmake[2]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build'
+[ 50%] Built target A
+/usr/bin/gmake  -f CMakeFiles/B.dir/build.make CMakeFiles/B.dir/depend
+gmake[2]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build'
+cd /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build && /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_depends "Unix Makefiles" /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build/CMakeFiles/B.dir/DependInfo.cmake
+Dependee "/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build/CMakeFiles/B.dir/DependInfo.cmake" is newer than depender "/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build/CMakeFiles/B.dir/depend.internal".
+Dependee "/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build/CMakeFiles/B.dir/depend.internal".
+Scanning dependencies of target B
+gmake[2]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build'
+/usr/bin/gmake  -f CMakeFiles/B.dir/build.make CMakeFiles/B.dir/build
+gmake[2]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build'
+[ 75%] Building CXX object CMakeFiles/B.dir/B.o
+/usr/bin/c++    -o CMakeFiles/B.dir/B.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/B.cxx
+[100%] Linking CXX executable B
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/B.dir/link.txt --verbose=1
+/usr/bin/c++ -rdynamic CMakeFiles/B.dir/B.o -o B  libA.a 
+gmake[2]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build'
+[100%] Built target B
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build'
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_progress_start /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/TestExplicitInstantiation/Build/CMakeFiles 0
+
+
+
+Determining if the C++ compiler supports __sync_add_and_fetch builtin passed with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/Sync/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_b7e32/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_b7e32.dir/build.make CMakeFiles/cmTC_b7e32.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/Sync/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_b7e32.dir/vtkTestSyncBuiltins.cxx.o
+/usr/bin/c++   -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_b7e32.dir/vtkTestSyncBuiltins.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/CMake/vtkTestSyncBuiltins.cxx
+Linking CXX executable cmTC_b7e32
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b7e32.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_b7e32.dir/vtkTestSyncBuiltins.cxx.o -o cmTC_b7e32 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/Sync/CMakeFiles/CMakeTmp'
+
+
+
+Determining if ostream supports long long passed with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_eb13b/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_eb13b.dir/build.make CMakeFiles/cmTC_eb13b.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_eb13b.dir/vtkTestStreamLongLong.cxx.o
+/usr/bin/c++ -DVTK_TEST_OSTREAM_LONG_LONG  -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_eb13b.dir/vtkTestStreamLongLong.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMake/vtkTestStreamLongLong.cxx
+Linking CXX executable cmTC_eb13b
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_eb13b.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_eb13b.dir/vtkTestStreamLongLong.cxx.o -o cmTC_eb13b 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+
+
+
+Determining if istream supports long long passed with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_733f7/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_733f7.dir/build.make CMakeFiles/cmTC_733f7.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_733f7.dir/vtkTestStreamLongLong.cxx.o
+/usr/bin/c++ -DVTK_TEST_ISTREAM_LONG_LONG  -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_733f7.dir/vtkTestStreamLongLong.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMake/vtkTestStreamLongLong.cxx
+Linking CXX executable cmTC_733f7
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_733f7.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_733f7.dir/vtkTestStreamLongLong.cxx.o -o cmTC_733f7 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+
+
+
+Checking whether header cstdio is available compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_ca4c2/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_ca4c2.dir/build.make CMakeFiles/cmTC_ca4c2.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_ca4c2.dir/kwsysPlatformTestsCXX.cxx.o
+/usr/bin/c++ -DTEST_KWSYS_CXX_HAS_CSTDIO  -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_ca4c2.dir/kwsysPlatformTestsCXX.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx
+Linking CXX executable cmTC_ca4c2
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ca4c2.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_ca4c2.dir/kwsysPlatformTestsCXX.cxx.o -o cmTC_ca4c2 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+
+
+Checking for Large File Support compiled and ran with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_9385d/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_9385d.dir/build.make CMakeFiles/cmTC_9385d.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_9385d.dir/kwsysPlatformTestsCXX.cxx.o
+/usr/bin/c++ -DKWSYS_CXX_HAS_CSTDIO=1 -DTEST_KWSYS_LFS_WORKS  -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_9385d.dir/kwsysPlatformTestsCXX.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx
+Linking CXX executable cmTC_9385d
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9385d.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_9385d.dir/kwsysPlatformTestsCXX.cxx.o -o cmTC_9385d 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+
+
+Checking whether STL classes are in std namespace compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_a9c42/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_a9c42.dir/build.make CMakeFiles/cmTC_a9c42.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_a9c42.dir/kwsysPlatformTestsCXX.cxx.o
+/usr/bin/c++ -DTEST_KWSYS_STL_HAVE_STD  -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_a9c42.dir/kwsysPlatformTestsCXX.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx
+Linking CXX executable cmTC_a9c42
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a9c42.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_a9c42.dir/kwsysPlatformTestsCXX.cxx.o -o cmTC_a9c42 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+
+
+Checking whether ANSI stream headers are available compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_ff73f/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_ff73f.dir/build.make CMakeFiles/cmTC_ff73f.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_ff73f.dir/kwsysPlatformTestsCXX.cxx.o
+/usr/bin/c++ -DTEST_KWSYS_IOS_USE_ANSI  -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_ff73f.dir/kwsysPlatformTestsCXX.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx
+Linking CXX executable cmTC_ff73f
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ff73f.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_ff73f.dir/kwsysPlatformTestsCXX.cxx.o -o cmTC_ff73f 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+
+
+Checking whether ANSI streams are in std namespace compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_efa2f/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_efa2f.dir/build.make CMakeFiles/cmTC_efa2f.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_efa2f.dir/kwsysPlatformTestsCXX.cxx.o
+/usr/bin/c++ -DTEST_KWSYS_IOS_HAVE_STD  -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_efa2f.dir/kwsysPlatformTestsCXX.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx
+Linking CXX executable cmTC_efa2f
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_efa2f.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_efa2f.dir/kwsysPlatformTestsCXX.cxx.o -o cmTC_efa2f 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+
+
+Checking whether ANSI string stream is available compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_4e82e/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_4e82e.dir/build.make CMakeFiles/cmTC_4e82e.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_4e82e.dir/kwsysPlatformTestsCXX.cxx.o
+/usr/bin/c++ -DTEST_KWSYS_IOS_USE_SSTREAM  -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_4e82e.dir/kwsysPlatformTestsCXX.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx
+Linking CXX executable cmTC_4e82e
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4e82e.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_4e82e.dir/kwsysPlatformTestsCXX.cxx.o -o cmTC_4e82e 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+
+
+Checking whether header cstddef is available compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_ed5be/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_ed5be.dir/build.make CMakeFiles/cmTC_ed5be.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_ed5be.dir/kwsysPlatformTestsCXX.cxx.o
+/usr/bin/c++ -DTEST_KWSYS_CXX_HAS_CSTDDEF  -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_ed5be.dir/kwsysPlatformTestsCXX.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx
+Linking CXX executable cmTC_ed5be
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ed5be.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_ed5be.dir/kwsysPlatformTestsCXX.cxx.o -o cmTC_ed5be 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+
+
+Checking whether stl string has operator!= for char* compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_fdf28/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_fdf28.dir/build.make CMakeFiles/cmTC_fdf28.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_fdf28.dir/kwsysPlatformTestsCXX.cxx.o
+/usr/bin/c++ -DKWSYS_STL_HAVE_STD=1 -DTEST_KWSYS_STL_STRING_HAVE_NEQ_CHAR  -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_fdf28.dir/kwsysPlatformTestsCXX.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx
+Linking CXX executable cmTC_fdf28
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fdf28.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_fdf28.dir/kwsysPlatformTestsCXX.cxx.o -o cmTC_fdf28 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+
+
+Checking whether stl has iterator_traits compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_6521e/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_6521e.dir/build.make CMakeFiles/cmTC_6521e.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_6521e.dir/kwsysPlatformTestsCXX.cxx.o
+/usr/bin/c++ -DKWSYS_STL_HAVE_STD=1 -DTEST_KWSYS_STL_HAS_ITERATOR_TRAITS  -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_6521e.dir/kwsysPlatformTestsCXX.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx
+Linking CXX executable cmTC_6521e
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6521e.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_6521e.dir/kwsysPlatformTestsCXX.cxx.o -o cmTC_6521e 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+
+
+Checking whether stl has standard template allocator compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_fc589/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_fc589.dir/build.make CMakeFiles/cmTC_fc589.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_fc589.dir/kwsysPlatformTestsCXX.cxx.o
+/usr/bin/c++ -DKWSYS_STL_HAVE_STD=1 -DTEST_KWSYS_STL_HAS_ALLOCATOR_TEMPLATE  -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_fc589.dir/kwsysPlatformTestsCXX.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx
+Linking CXX executable cmTC_fc589
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fc589.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_fc589.dir/kwsysPlatformTestsCXX.cxx.o -o cmTC_fc589 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+
+
+Checking for rebind member of stl allocator compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_33be2/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_33be2.dir/build.make CMakeFiles/cmTC_33be2.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_33be2.dir/kwsysPlatformTestsCXX.cxx.o
+/usr/bin/c++ -DKWSYS_STL_HAVE_STD=1 -DTEST_KWSYS_STL_HAS_ALLOCATOR_REBIND  -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_33be2.dir/kwsysPlatformTestsCXX.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx
+Linking CXX executable cmTC_33be2
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_33be2.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_33be2.dir/kwsysPlatformTestsCXX.cxx.o -o cmTC_33be2 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+
+
+Checking whether stl containers support allocator objects. compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_d3071/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_d3071.dir/build.make CMakeFiles/cmTC_d3071.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_d3071.dir/kwsysPlatformTestsCXX.cxx.o
+/usr/bin/c++ -DKWSYS_STL_HAVE_STD=1 -DTEST_KWSYS_STL_HAS_ALLOCATOR_OBJECTS  -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_d3071.dir/kwsysPlatformTestsCXX.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx
+Linking CXX executable cmTC_d3071
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d3071.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_d3071.dir/kwsysPlatformTestsCXX.cxx.o -o cmTC_d3071 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+
+
+Checking whether ios has binary openmode compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_2ed43/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_2ed43.dir/build.make CMakeFiles/cmTC_2ed43.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_2ed43.dir/kwsysPlatformTestsCXX.cxx.o
+/usr/bin/c++ -DKWSYS_IOS_HAVE_STD=1 -DKWSYS_IOS_USE_ANSI=1 -DTEST_KWSYS_IOS_HAVE_BINARY  -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_2ed43.dir/kwsysPlatformTestsCXX.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx
+Linking CXX executable cmTC_2ed43
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2ed43.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_2ed43.dir/kwsysPlatformTestsCXX.cxx.o -o cmTC_2ed43 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+
+
+Checking for member template support compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_e780d/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_e780d.dir/build.make CMakeFiles/cmTC_e780d.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_e780d.dir/kwsysPlatformTestsCXX.cxx.o
+/usr/bin/c++ -DTEST_KWSYS_CXX_HAS_MEMBER_TEMPLATES  -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_e780d.dir/kwsysPlatformTestsCXX.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx
+Linking CXX executable cmTC_e780d
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e780d.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_e780d.dir/kwsysPlatformTestsCXX.cxx.o -o cmTC_e780d 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+
+
+Checking for standard template specialization syntax compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_73e4f/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_73e4f.dir/build.make CMakeFiles/cmTC_73e4f.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_73e4f.dir/kwsysPlatformTestsCXX.cxx.o
+/usr/bin/c++ -DTEST_KWSYS_CXX_HAS_FULL_SPECIALIZATION  -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_73e4f.dir/kwsysPlatformTestsCXX.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx
+Linking CXX executable cmTC_73e4f
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_73e4f.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_73e4f.dir/kwsysPlatformTestsCXX.cxx.o -o cmTC_73e4f 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+
+
+Checking whether argument dependent lookup is supported compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_4c9a9/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_4c9a9.dir/build.make CMakeFiles/cmTC_4c9a9.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_4c9a9.dir/kwsysPlatformTestsCXX.cxx.o
+/usr/bin/c++ -DTEST_KWSYS_CXX_HAS_ARGUMENT_DEPENDENT_LOOKUP  -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_4c9a9.dir/kwsysPlatformTestsCXX.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx
+Linking CXX executable cmTC_4c9a9
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4c9a9.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_4c9a9.dir/kwsysPlatformTestsCXX.cxx.o -o cmTC_4c9a9 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+
+
+Checking whether struct stat has st_mtim member compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_6463a/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_6463a.dir/build.make CMakeFiles/cmTC_6463a.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_6463a.dir/kwsysPlatformTestsCXX.cxx.o
+/usr/bin/c++ -DTEST_KWSYS_STAT_HAS_ST_MTIM  -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_6463a.dir/kwsysPlatformTestsCXX.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx
+Linking CXX executable cmTC_6463a
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6463a.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_6463a.dir/kwsysPlatformTestsCXX.cxx.o -o cmTC_6463a 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+
+
+Checking for C type size macros compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_b8bf4/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_b8bf4.dir/build.make CMakeFiles/cmTC_b8bf4.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_b8bf4.dir/kwsysPlatformTestsC.c.o
+/usr/bin/cc -DTEST_KWSYS_C_TYPE_MACROS  -fPIE   -o CMakeFiles/cmTC_b8bf4.dir/kwsysPlatformTestsC.c.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsC.c
+Linking C executable cmTC_b8bf4
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b8bf4.dir/link.txt --verbose=1
+/usr/bin/cc -fPIE   -rdynamic CMakeFiles/cmTC_b8bf4.dir/kwsysPlatformTestsC.c.o -o cmTC_b8bf4 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+
+
+Checking whether char is signed compiled and ran with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_840e3/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_840e3.dir/build.make CMakeFiles/cmTC_840e3.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_840e3.dir/kwsysPlatformTestsCXX.cxx.o
+/usr/bin/c++ -DTEST_KWSYS_CHAR_IS_SIGNED  -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_840e3.dir/kwsysPlatformTestsCXX.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx
+Linking CXX executable cmTC_840e3
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_840e3.dir/link.txt --verbose=1
+/usr/bin/c++ -fPIE  -Wno-deprecated  -rdynamic CMakeFiles/cmTC_840e3.dir/kwsysPlatformTestsCXX.cxx.o -o cmTC_840e3 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+
+
+Checking whether C compiler has ptrdiff_t in stddef.h compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_e0191/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_e0191.dir/build.make CMakeFiles/cmTC_e0191.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e0191.dir/kwsysPlatformTestsC.c.o
+/usr/bin/cc -DTEST_KWSYS_C_HAS_PTRDIFF_T  -fPIE   -o CMakeFiles/cmTC_e0191.dir/kwsysPlatformTestsC.c.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsC.c
+Linking C executable cmTC_e0191
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e0191.dir/link.txt --verbose=1
+/usr/bin/cc -fPIE   -rdynamic CMakeFiles/cmTC_e0191.dir/kwsysPlatformTestsC.c.o -o cmTC_e0191 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+
+
+Checking whether C compiler has ssize_t in unistd.h compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_4ab1f/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_4ab1f.dir/build.make CMakeFiles/cmTC_4ab1f.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_4ab1f.dir/kwsysPlatformTestsC.c.o
+/usr/bin/cc -DTEST_KWSYS_C_HAS_SSIZE_T  -fPIE   -o CMakeFiles/cmTC_4ab1f.dir/kwsysPlatformTestsC.c.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsC.c
+Linking C executable cmTC_4ab1f
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4ab1f.dir/link.txt --verbose=1
+/usr/bin/cc -fPIE   -rdynamic CMakeFiles/cmTC_4ab1f.dir/kwsysPlatformTestsC.c.o -o cmTC_4ab1f 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+
+
+Checking for getaddrinfo. compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtklibxml2/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_721f8/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_721f8.dir/build.make CMakeFiles/cmTC_721f8.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtklibxml2/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_721f8.dir/platformTestsC.c.o
+/usr/bin/cc -DTEST_HAVE_GETADDRINFO  -fPIE   -o CMakeFiles/cmTC_721f8.dir/platformTestsC.c.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtklibxml2/platformTestsC.c
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtklibxml2/platformTestsC.c: In function ‘main’:
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtklibxml2/platformTestsC.c:53:3: warning: incompatible implicit declaration of built-in function ‘memset’
+   memset(&hints, 0, sizeof(hints));
+   ^
+Linking C executable cmTC_721f8
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_721f8.dir/link.txt --verbose=1
+/usr/bin/cc -fPIE   -rdynamic CMakeFiles/cmTC_721f8.dir/platformTestsC.c.o -o cmTC_721f8 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtklibxml2/CMakeFiles/CMakeTmp'
+
+
+
+Checking for socklen_t compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtklibxml2/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_59104/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_59104.dir/build.make CMakeFiles/cmTC_59104.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtklibxml2/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_59104.dir/platformTestsC.c.o
+/usr/bin/cc -DTEST_HAVE_SOCKLEN_T  -fPIE   -o CMakeFiles/cmTC_59104.dir/platformTestsC.c.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtklibxml2/platformTestsC.c
+Linking C executable cmTC_59104
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_59104.dir/link.txt --verbose=1
+/usr/bin/cc -fPIE   -rdynamic CMakeFiles/cmTC_59104.dir/platformTestsC.c.o -o cmTC_59104 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtklibxml2/CMakeFiles/CMakeTmp'
+
+
+
+Checking for DIR in sys/dir.h compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtklibxml2/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_86cf9/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_86cf9.dir/build.make CMakeFiles/cmTC_86cf9.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtklibxml2/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_86cf9.dir/platformTestsC.c.o
+/usr/bin/cc -DTEST_HAVE_SYS_DIR_H  -fPIE   -o CMakeFiles/cmTC_86cf9.dir/platformTestsC.c.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtklibxml2/platformTestsC.c
+Linking C executable cmTC_86cf9
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_86cf9.dir/link.txt --verbose=1
+/usr/bin/cc -fPIE   -rdynamic CMakeFiles/cmTC_86cf9.dir/platformTestsC.c.o -o cmTC_86cf9 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtklibxml2/CMakeFiles/CMakeTmp'
+
+
+
+Checking for va_copy compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtklibxml2/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_4e7ec/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_4e7ec.dir/build.make CMakeFiles/cmTC_4e7ec.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtklibxml2/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_4e7ec.dir/platformTestsC.c.o
+/usr/bin/cc -DTEST_HAVE_VA_COPY  -fPIE   -o CMakeFiles/cmTC_4e7ec.dir/platformTestsC.c.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtklibxml2/platformTestsC.c
+Linking C executable cmTC_4e7ec
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4e7ec.dir/link.txt --verbose=1
+/usr/bin/cc -fPIE   -rdynamic CMakeFiles/cmTC_4e7ec.dir/platformTestsC.c.o -o cmTC_4e7ec 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtklibxml2/CMakeFiles/CMakeTmp'
+
+
+
+Checking for __va_copy compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtklibxml2/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_c65bf/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_c65bf.dir/build.make CMakeFiles/cmTC_c65bf.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtklibxml2/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_c65bf.dir/platformTestsC.c.o
+/usr/bin/cc -DTEST_HAVE___VA_COPY  -fPIE   -o CMakeFiles/cmTC_c65bf.dir/platformTestsC.c.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtklibxml2/platformTestsC.c
+Linking C executable cmTC_c65bf
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c65bf.dir/link.txt --verbose=1
+/usr/bin/cc -fPIE   -rdynamic CMakeFiles/cmTC_c65bf.dir/platformTestsC.c.o -o cmTC_c65bf 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtklibxml2/CMakeFiles/CMakeTmp'
+
+
+
+Checking for ipv6 support. compiled with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtklibxml2/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_4984c/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_4984c.dir/build.make CMakeFiles/cmTC_4984c.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtklibxml2/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_4984c.dir/platformTestsC.c.o
+/usr/bin/cc -DTEST_SUPPORT_IP6  -fPIE   -o CMakeFiles/cmTC_4984c.dir/platformTestsC.c.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtklibxml2/platformTestsC.c
+Linking C executable cmTC_4984c
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4984c.dir/link.txt --verbose=1
+/usr/bin/cc -fPIE   -rdynamic CMakeFiles/cmTC_4984c.dir/platformTestsC.c.o -o cmTC_4984c 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtklibxml2/CMakeFiles/CMakeTmp'
+
+
+
+Performing C SOURCE FILE Test HAVE_ST_BLKSIZE succeded with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_68f82/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_68f82.dir/build.make CMakeFiles/cmTC_68f82.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_68f82.dir/src.c.o
+/usr/bin/cc   -fPIE   -o CMakeFiles/cmTC_68f82.dir/src.c.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/src.c
+Linking C executable cmTC_68f82
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_68f82.dir/link.txt --verbose=1
+/usr/bin/cc -fPIE   -rdynamic CMakeFiles/cmTC_68f82.dir/src.c.o -o cmTC_68f82 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+#include <sys/types.h>
+#include <sys/stat.h>
+int main() { return 0; }
+int t() {
+struct stat s; s.st_blksize;
+; return 0; }
+
+Performing C SOURCE FILE Test HAVE_FTRUNCATE succeded with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_f0fa6/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_f0fa6.dir/build.make CMakeFiles/cmTC_f0fa6.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_f0fa6.dir/src.c.o
+/usr/bin/cc   -fPIE   -o CMakeFiles/cmTC_f0fa6.dir/src.c.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeTmp/src.c
+Linking C executable cmTC_f0fa6
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f0fa6.dir/link.txt --verbose=1
+/usr/bin/cc -fPIE   -rdynamic CMakeFiles/cmTC_f0fa6.dir/src.c.o -o cmTC_f0fa6 
+/usr/bin/ld: CMakeFiles/cmTC_f0fa6.dir/src.c.o: in function `main':
+src.c:(.text+0x20): warning: the use of `tmpnam' is dangerous, better use `mkstemp'
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+#include <unistd.h>
+#include <stdio.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+main()
+{
+  char*   path = tmpnam(NULL);
+  int     exitStatus = 1;
+
+  if (path != NULL)
+    {
+    int   fd = open(path, O_RDWR | O_CREAT | O_TRUNC, 0666);
+
+    if (fd != -1)
+      {
+      if (write(fd, "0", 1) == 1)
+        {
+        off_t   pos = lseek(fd, 0, SEEK_CUR);
+
+        if (pos != (off_t)-1)
+          {
+          if (ftruncate(fd, 512) != -1)
+            {
+            if (pos == lseek(fd, 0, SEEK_CUR))
+              {
+              if (lseek(fd, 0, SEEK_SET) == 0)
+                {
+                char  buf[512];
+
+                if (read(fd, buf, 512) == 512)
+                  exitStatus = 0;
+                }
+              }
+            }
+          }
+        }
+      close(fd);
+      unlink(path);
+      }
+    }
+
+  return exitStatus;
+}
+

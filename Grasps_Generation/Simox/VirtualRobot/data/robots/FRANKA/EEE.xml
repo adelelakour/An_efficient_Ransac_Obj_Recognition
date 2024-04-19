@@ -1,0 +1,160 @@
+<Robot Type="panda" RootNode="PANDA Hand Start">
+    <RobotNode name="PANDA Hand Start">
+        <Transform>
+            <rollpitchyaw roll="0" pitch="0" yaw="0" units="degree"/>
+        </Transform>
+        <Visualization enable="true">
+            <CoordinateAxis type="Inventor" enable="false" scaling="1" text="PANDA Hand Start"/>
+        </Visualization>
+        <Child name="PANDA Hand init"/>
+    </RobotNode>
+
+    <RobotNode name="PANDA Hand init">
+        <Child name="panda_hand"/>
+        <Child name="panda_hand_TCP"/>
+        <Child name="panda_hand_GCP"/>
+    </RobotNode>
+
+    <RobotNode name="panda_hand_TCP">
+        <Transform>
+            <Translation x="0" y="0" z="59"/>
+            <rollpitchyaw roll="0" pitch="0" yaw="0" units="degree"/>
+        </Transform>
+        <Visualization enable="true">
+            <CoordinateAxis type="Inventor" enable="false" scaling="1"/>
+        </Visualization>
+    </RobotNode>
+
+    <RobotNode name="panda_hand_GCP">
+        <Transform>
+            <Translation x="0" y="0" z="59"/>
+            <rollpitchyaw roll="0" pitch="0" yaw="0" units="degree"/>
+        </Transform>
+        <Visualization enable="true">
+            <CoordinateAxis type="Inventor" enable="false" scaling="1"/>
+        </Visualization>
+    </RobotNode>
+
+    <RobotNode name="panda_hand">
+        <Transform>
+            <Translation x="0" y="0" z="0"/>
+            <rollpitchyaw roll="0" pitch="-0" yaw="0" unitsAngle="degree"/>
+        </Transform>
+        <Visualization>
+            <File type="inventor">models/visual/hand.stl</File>
+        </Visualization>
+        <CollisionModel>
+            <File type="inventor">models/collision/hand.stl</File>
+        </CollisionModel>
+        <Child name="panda_finger_joint1"/>
+        <Child name="panda_finger_joint2"/>        
+    </RobotNode>
+
+
+    
+    
+    <RobotNode name="panda_finger_joint1">
+        <Transform>
+            <Translation x="0" y="0" z="59"/>
+            <rollpitchyaw roll="0" pitch="0" yaw="0" unitsAngle="degree"/>
+        </Transform>
+        <Joint type="prismatic">
+            <translationdirection x="0" y="-1" z="0"/>
+            <limits lo="0" hi="40" units="mm"/>
+            <MaxAcceleration value="-1"/>
+            <MaxVelocity value="0.2"/>
+            <MaxTorque value="20"/>
+        </Joint>
+        <Child name="panda_rightfinger"/>
+    </RobotNode>
+    
+    
+    <RobotNode name="panda_finger_joint2">
+        <Transform>
+            <Translation x="0" y="0" z="59"/>
+            <rollpitchyaw roll="0" pitch="0" yaw="0.0" unitsAngle="degree"/>
+        </Transform>
+        <Joint type="prismatic">
+            <translationdirection x="0" y="1" z="0"/>
+            <limits lo="0" hi="40" units="mm"/>
+            <MaxAcceleration value="-1"/>
+            <MaxVelocity value="0.2"/>
+            <MaxTorque value="20"/>
+        </Joint>
+        <Child name="panda_leftfinger"/>
+    </RobotNode>
+    
+    
+    
+    
+
+    <RobotNode name="panda_rightfinger">
+        <Transform>
+            <Translation x="0" y="40" z="0"/>
+            <rollpitchyaw roll="0" pitch="0" yaw="0" unitsAngle="degree"/>
+        </Transform>
+        <Visualization>
+            <File type="inventor">models/visual/finger.stl</File>
+        </Visualization>
+        <CollisionModel>
+            <File type="inventor">models/collision/finger.stl</File>
+        </CollisionModel>
+    </RobotNode>
+    
+
+    <RobotNode name="panda_leftfinger">
+        <Transform>
+            <Translation x="0" y="-40" z="0"/>
+            <rollpitchyaw roll="0" pitch="0" yaw="180" unitsAngle="degree"/>
+        </Transform>
+        <Visualization>
+            <File type="inventor">models/visual/finger.stl</File>
+        </Visualization>
+        <CollisionModel>
+            <File type="inventor">models/collision/finger.stl</File>
+        </CollisionModel>
+    </RobotNode>
+    
+
+
+
+
+
+
+
+        
+<!-- END EFFECTOR -->
+<Endeffector name="Panda Gripper" base="PANDA Hand Start" tcp="panda_hand_TCP" gcp="panda_hand_GCP">
+  <Preshape name="Grasp Preshape">
+    <Node name="panda_finger_joint1" unit="radian" value="0"/>
+    <Node name="panda_finger_joint2" unit="radian" value="0"/>
+  </Preshape>
+
+  <Static> 
+    <Node name="panda_hand"/>
+  </Static>
+  
+  <Actor name="Right Finger RF">
+    <Node name="panda_finger_joint1" considerCollisions="Actors"/>
+    <Node name="panda_rightfinger" considerCollisions="Actors"/>
+  </Actor>
+  
+  <Actor name="Left Finger LF">
+    <Node name="panda_finger_joint2" considerCollisions="Actors"/>
+    <Node name="panda_leftfinger" considerCollisions="Actors"/>
+  </Actor>
+    
+</Endeffector>
+
+
+
+<!-- Robot Node Sets -->
+<RobotNodeSet name="PANDA Hand Joints">
+  <Node name="panda_finger_joint1"/>
+  <Node name="panda_finger_joint2"/>
+</RobotNodeSet>    
+    
+    
+    
+</Robot>
+

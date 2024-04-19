@@ -1,0 +1,6 @@
+<ManipulationObject name='large_clamp'>
+	<Visualization>
+		<File type='inventor'>../stl/large_clamp.stl</File>
+		<UseAsCollisionModel/>
+	</Visualization>
+</ManipulationObject>

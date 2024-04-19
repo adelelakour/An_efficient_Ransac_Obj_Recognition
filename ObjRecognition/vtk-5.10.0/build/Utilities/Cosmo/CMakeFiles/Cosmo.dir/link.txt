@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../bin/libCosmo.a CMakeFiles/Cosmo.dir/Partition.cxx.o CMakeFiles/Cosmo.dir/ParticleDistribute.cxx.o CMakeFiles/Cosmo.dir/ParticleExchange.cxx.o CMakeFiles/Cosmo.dir/Message.cxx.o CMakeFiles/Cosmo.dir/CosmoHaloFinder.cxx.o CMakeFiles/Cosmo.dir/CosmoHaloFinderP.cxx.o CMakeFiles/Cosmo.dir/FOFHaloProperties.cxx.o CMakeFiles/Cosmo.dir/ChainingMesh.cxx.o CMakeFiles/Cosmo.dir/HaloCenterFinder.cxx.o CMakeFiles/Cosmo.dir/SODHalo.cxx.o
+/usr/bin/ranlib ../../bin/libCosmo.a

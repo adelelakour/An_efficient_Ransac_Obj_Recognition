@@ -1,0 +1,12 @@
+<ManipulationObject name='Floor20x20'>
+	<Visualization>
+		<File>Floor20x20.wrl</File>
+	</Visualization>
+	<CollisionModel>
+		<File>Floor20x20.wrl</File>
+	</CollisionModel>
+	<Physics>
+		<SimulationType value='Static'/>
+		<Mass unit='kg' value='0'/>
+	</Physics>
+</ManipulationObject>

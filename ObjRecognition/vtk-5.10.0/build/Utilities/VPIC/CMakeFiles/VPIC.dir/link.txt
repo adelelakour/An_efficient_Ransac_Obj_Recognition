@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../bin/libVPIC.a CMakeFiles/VPIC.dir/VPICDataSet.cxx.o CMakeFiles/VPIC.dir/VPICDefinition.cxx.o CMakeFiles/VPIC.dir/VPICGlobal.cxx.o CMakeFiles/VPIC.dir/VPICHeader.cxx.o CMakeFiles/VPIC.dir/VPICPart.cxx.o CMakeFiles/VPIC.dir/VPICView.cxx.o CMakeFiles/VPIC.dir/GridExchange.cxx.o
+/usr/bin/ranlib ../../bin/libVPIC.a

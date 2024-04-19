@@ -1,0 +1,5 @@
+# This file is used to ensure that vtkMaterialXMLLibrary.h is re-generated when
+# the user changes the CMake options VTK_USE_CG_SHADERS or VTK_USE_GLSL_SHADERS.
+
+
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/MaterialLibrary/Materials/GLSLTwisted.xml

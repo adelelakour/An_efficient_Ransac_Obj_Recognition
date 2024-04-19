@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIE  -Wno-deprecated -O3 -DNDEBUG -rdynamic CMakeFiles/TestInstantiator.dir/TestInstantiator.cxx.o -o ../../../bin/TestInstantiator  ../../../bin/libvtkCommon.a ../../../bin/libvtksys.a -lm -ldl 

@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../bin/libLSDyna.a CMakeFiles/LSDyna.dir/LSDynaFamily.cxx.o CMakeFiles/LSDyna.dir/LSDynaMetaData.cxx.o
+/usr/bin/ranlib ../../bin/libLSDyna.a

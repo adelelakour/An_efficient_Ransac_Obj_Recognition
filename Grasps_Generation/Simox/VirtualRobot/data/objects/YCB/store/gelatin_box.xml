@@ -1,0 +1,6 @@
+<ManipulationObject name='gelatin_box'>
+	<Visualization>
+		<File type='inventor'>../stl/gelatin_box.stl</File>
+		<UseAsCollisionModel/>
+	</Visualization>
+</ManipulationObject>

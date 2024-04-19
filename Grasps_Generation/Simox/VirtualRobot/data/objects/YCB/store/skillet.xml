@@ -1,0 +1,6 @@
+<ManipulationObject name='skillet'>
+	<Visualization>
+		<File type='inventor'>../stl/skillet.stl</File>
+		<UseAsCollisionModel/>
+	</Visualization>
+</ManipulationObject>

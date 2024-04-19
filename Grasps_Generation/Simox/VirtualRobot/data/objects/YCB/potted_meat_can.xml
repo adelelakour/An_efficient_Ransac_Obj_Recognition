@@ -1,0 +1,6 @@
+<ManipulationObject name='potted_meat_can'>
+	<Visualization>
+		<File type='inventor'>../stl/potted_meat_can.stl</File>
+		<UseAsCollisionModel/>
+	</Visualization>
+</ManipulationObject>

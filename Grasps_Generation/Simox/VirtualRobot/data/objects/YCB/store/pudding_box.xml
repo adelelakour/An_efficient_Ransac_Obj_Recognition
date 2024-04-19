@@ -1,0 +1,6 @@
+<ManipulationObject name='pudding_box'>
+	<Visualization>
+		<File type='inventor'>../stl/pudding_box.stl</File>
+		<UseAsCollisionModel/>
+	</Visualization>
+</ManipulationObject>

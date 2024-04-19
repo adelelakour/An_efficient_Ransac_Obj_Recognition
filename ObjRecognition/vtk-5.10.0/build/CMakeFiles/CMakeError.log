@@ -1,0 +1,204 @@
+Checking for non-standard argument to stl allocator<>::max_size failed to compile with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_9b5f9/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_9b5f9.dir/build.make CMakeFiles/cmTC_9b5f9.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_9b5f9.dir/kwsysPlatformTestsCXX.cxx.o
+/usr/bin/c++ -DKWSYS_STL_HAVE_STD=1 -DTEST_KWSYS_STL_HAS_ALLOCATOR_MAX_SIZE_ARGUMENT  -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_9b5f9.dir/kwsysPlatformTestsCXX.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx: In function ‘void f(const std::allocator<char>&)’:
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx:247:25: error: no matching function for call to ‘std::allocator<char>::max_size(long unsigned int) const’
+   a.max_size(sizeof(int));
+                         ^
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx:247:25: note: candidate is:
+In file included from /usr/include/x86_64-linux-gnu/c++/4.9/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/4.9/bits/allocator.h:46,
+                 from /usr/include/c++/4.9/memory:63,
+                 from /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx:244:
+/usr/include/c++/4.9/ext/new_allocator.h:113:7: note: __gnu_cxx::new_allocator<_Tp>::size_type __gnu_cxx::new_allocator<_Tp>::max_size() const [with _Tp = char; __gnu_cxx::new_allocator<_Tp>::size_type = long unsigned int]
+       max_size() const _GLIBCXX_USE_NOEXCEPT
+       ^
+/usr/include/c++/4.9/ext/new_allocator.h:113:7: note:   candidate expects 0 arguments, 1 provided
+gmake[1]: *** [CMakeFiles/cmTC_9b5f9.dir/build.make:78: CMakeFiles/cmTC_9b5f9.dir/kwsysPlatformTestsCXX.cxx.o] Error 1
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:127: cmTC_9b5f9/fast] Error 2
+
+
+
+Checking whether "<>" is needed for template friends failed to compile with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_522d3/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_522d3.dir/build.make CMakeFiles/cmTC_522d3.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_522d3.dir/kwsysPlatformTestsCXX.cxx.o
+/usr/bin/c++ -DTEST_KWSYS_CXX_HAS_NULL_TEMPLATE_ARGS  -fPIE  -Wno-deprecated  -o CMakeFiles/cmTC_522d3.dir/kwsysPlatformTestsCXX.cxx.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx:132:21: warning: friend declaration ‘int f(A<T>&)’ declares a non-template function [-Wnon-template-friend]
+   friend int f(A<T>&);
+                     ^
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx:132:21: note: (if this is not what you intended, make sure the function template has already been declared and add <> after the function name here) 
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx: In instantiation of ‘int f(A<T>&) [with T = int]’:
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx:138:23:   required from here
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx:134:7: error: ‘int A<int>::x’ is private
+   int x;
+       ^
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/kwsys/kwsysPlatformTestsCXX.cxx:137:48: error: within this context
+ template <class T> int f(A<T>& a) { return a.x = 0; }
+                                                ^
+gmake[1]: *** [CMakeFiles/cmTC_522d3.dir/build.make:78: CMakeFiles/cmTC_522d3.dir/kwsysPlatformTestsCXX.cxx.o] Error 1
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/kwsys/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:127: cmTC_522d3/fast] Error 2
+
+
+
+Performing Other Test HAVE_STRUCT_TIMEZONE failed with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_9632a/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_9632a.dir/build.make CMakeFiles/cmTC_9632a.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_9632a.dir/HDF5Tests.c.o
+/usr/bin/cc   -fPIE  -DHAVE_STRUCT_TIMEZONE  -DH5_HAVE_SYS_TIME_H -DH5_HAVE_UNISTD_H -DH5_HAVE_SYS_TYPES_H -DH5_HAVE_SYS_SOCKET_H -o CMakeFiles/cmTC_9632a.dir/HDF5Tests.c.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/HDF5Tests.c
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/HDF5Tests.c: In function ‘main’:
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/HDF5Tests.c:233:29: error: storage size of ‘tz’ isn’t known
+ SIMPLE_TEST(struct timezone tz; tz.tz_minuteswest=0);
+                             ^
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/HDF5Tests.c:1:36: note: in definition of macro ‘SIMPLE_TEST’
+ #define SIMPLE_TEST(x) int main(){ x; return 0; }
+                                    ^
+gmake[1]: *** [CMakeFiles/cmTC_9632a.dir/build.make:78: CMakeFiles/cmTC_9632a.dir/HDF5Tests.c.o] Error 1
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:127: cmTC_9632a/fast] Error 2
+
+
+Performing Other Test HAVE_SOCKLEN_T failed with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_e9834/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_e9834.dir/build.make CMakeFiles/cmTC_e9834.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e9834.dir/HDF5Tests.c.o
+/usr/bin/cc   -fPIE  -DHAVE_SOCKLEN_T  -DH5_HAVE_SYS_TIME_H -DH5_HAVE_UNISTD_H -DH5_HAVE_SYS_TYPES_H -DH5_HAVE_SYS_SOCKET_H -o CMakeFiles/cmTC_e9834.dir/HDF5Tests.c.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/HDF5Tests.c
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/HDF5Tests.c: In function ‘main’:
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/HDF5Tests.c:308:13: error: unknown type name ‘socklen_t’
+ SIMPLE_TEST(socklen_t foo);
+             ^
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/HDF5Tests.c:1:36: note: in definition of macro ‘SIMPLE_TEST’
+ #define SIMPLE_TEST(x) int main(){ x; return 0; }
+                                    ^
+gmake[1]: *** [CMakeFiles/cmTC_e9834.dir/build.make:78: CMakeFiles/cmTC_e9834.dir/HDF5Tests.c.o] Error 1
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:127: cmTC_e9834/fast] Error 2
+
+
+Performing Other Test DEV_T_IS_SCALAR failed with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_639af/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_639af.dir/build.make CMakeFiles/cmTC_639af.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_639af.dir/HDF5Tests.c.o
+/usr/bin/cc   -fPIE  -DDEV_T_IS_SCALAR  -DH5_HAVE_SYS_TIME_H -DH5_HAVE_UNISTD_H -DH5_HAVE_SYS_TYPES_H -DH5_HAVE_SYS_SOCKET_H -o CMakeFiles/cmTC_639af.dir/HDF5Tests.c.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/HDF5Tests.c
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/HDF5Tests.c: In function ‘main’:
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/HDF5Tests.c:320:3: error: unknown type name ‘dev_t’
+   dev_t d1, d2;
+   ^
+gmake[1]: *** [CMakeFiles/cmTC_639af.dir/build.make:78: CMakeFiles/cmTC_639af.dir/HDF5Tests.c.o] Error 1
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:127: cmTC_639af/fast] Error 2
+
+
+Performing Other Test HAVE_OFF64_T failed with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_ff396/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_ff396.dir/build.make CMakeFiles/cmTC_ff396.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ff396.dir/HDF5Tests.c.o
+/usr/bin/cc   -fPIE  -DHAVE_OFF64_T  -DH5_HAVE_SYS_TIME_H -DH5_HAVE_UNISTD_H -DH5_HAVE_SYS_TYPES_H -DH5_HAVE_SYS_SOCKET_H -o CMakeFiles/cmTC_ff396.dir/HDF5Tests.c.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/HDF5Tests.c
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/HDF5Tests.c: In function ‘main’:
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/HDF5Tests.c:342:3: error: unknown type name ‘off64_t’
+   off64_t n = 0;
+   ^
+gmake[1]: *** [CMakeFiles/cmTC_ff396.dir/build.make:78: CMakeFiles/cmTC_ff396.dir/HDF5Tests.c.o] Error 1
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:127: cmTC_ff396/fast] Error 2
+
+
+Performing Other Test GETTIMEOFDAY_GIVES_TZ failed with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_c1705/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_c1705.dir/build.make CMakeFiles/cmTC_c1705.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_c1705.dir/HDF5Tests.c.o
+/usr/bin/cc   -fPIE  -DGETTIMEOFDAY_GIVES_TZ  -DH5_HAVE_SYS_TIME_H -DH5_HAVE_UNISTD_H -DH5_HAVE_SYS_TYPES_H -DH5_HAVE_SYS_SOCKET_H -o CMakeFiles/cmTC_c1705.dir/HDF5Tests.c.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/HDF5Tests.c
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/HDF5Tests.c: In function ‘main’:
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/HDF5Tests.c:355:17: error: storage size of ‘tv’ isn’t known
+  struct timeval tv;
+                 ^
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/HDF5Tests.c:356:18: error: storage size of ‘tz’ isn’t known
+  struct timezone tz;
+                  ^
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/HDF5Tests.c:362:5: warning: incompatible implicit declaration of built-in function ‘exit’
+     exit(1);
+     ^
+gmake[1]: *** [CMakeFiles/cmTC_c1705.dir/build.make:78: CMakeFiles/cmTC_c1705.dir/HDF5Tests.c.o] Error 1
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:127: cmTC_c1705/fast] Error 2
+
+
+Test H5_ULONG_TO_FP_BOTTOM_BIT_ACCURATE Run failed with the following output and exit code:
+ Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtkhdf5/CMake/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_e939d/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_e939d.dir/build.make CMakeFiles/cmTC_e939d.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtkhdf5/CMake/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e939d.dir/ConversionTests.c.o
+/usr/bin/cc   -fPIE  -DH5_ULONG_TO_FP_BOTTOM_BIT_ACCURATE_TEST -o CMakeFiles/cmTC_e939d.dir/ConversionTests.c.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/ConversionTests.c
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/ConversionTests.c: In function ‘main’:
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/ConversionTests.c:420:5: warning: incompatible implicit declaration of built-in function ‘exit’
+     exit(ret);
+     ^
+Linking C executable cmTC_e939d
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e939d.dir/link.txt --verbose=1
+/usr/bin/cc -fPIE  -DH5_ULONG_TO_FP_BOTTOM_BIT_ACCURATE_TEST -rdynamic CMakeFiles/cmTC_e939d.dir/ConversionTests.c.o -o cmTC_e939d 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtkhdf5/CMake/CMakeFiles/CMakeTmp'
+
+
+Test H5_FP_TO_ULLONG_RIGHT_MAXIMUM Run failed with the following output and exit code:
+ Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtkhdf5/CMake/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_f4e0d/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_f4e0d.dir/build.make CMakeFiles/cmTC_f4e0d.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtkhdf5/CMake/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_f4e0d.dir/ConversionTests.c.o
+/usr/bin/cc   -fPIE  -DH5_FP_TO_ULLONG_RIGHT_MAXIMUM_TEST -o CMakeFiles/cmTC_f4e0d.dir/ConversionTests.c.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/ConversionTests.c
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/ConversionTests.c: In function ‘main’:
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtkhdf5/Resources/ConversionTests.c:59:3: warning: incompatible implicit declaration of built-in function ‘exit’
+   exit(ret);
+   ^
+Linking C executable cmTC_f4e0d
+/home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f4e0d.dir/link.txt --verbose=1
+/usr/bin/cc -fPIE  -DH5_FP_TO_ULLONG_RIGHT_MAXIMUM_TEST -rdynamic CMakeFiles/cmTC_f4e0d.dir/ConversionTests.c.o -o cmTC_f4e0d 
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtkhdf5/CMake/CMakeFiles/CMakeTmp'
+
+
+Checking for DIR in sys/ndir.h failed to compile with the following output:
+Change Dir: '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtklibxml2/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/adelelakour/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_22e38/fast
+/usr/bin/gmake  -f CMakeFiles/cmTC_22e38.dir/build.make CMakeFiles/cmTC_22e38.dir/build
+gmake[1]: Entering directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtklibxml2/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_22e38.dir/platformTestsC.c.o
+/usr/bin/cc -DTEST_HAVE_SYS_NDIR_H  -fPIE   -o CMakeFiles/cmTC_22e38.dir/platformTestsC.c.o -c /home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtklibxml2/platformTestsC.c
+/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/Utilities/vtklibxml2/platformTestsC.c:82:22: fatal error: sys/ndir.h: No such file or directory
+ #include <sys/ndir.h>
+                      ^
+compilation terminated.
+gmake[1]: *** [CMakeFiles/cmTC_22e38.dir/build.make:78: CMakeFiles/cmTC_22e38.dir/platformTestsC.c.o] Error 1
+gmake[1]: Leaving directory '/home/adelelakour/CLionProjects/An_effi_Ransac_RealSense-master/vtk-5.10.0/build/Utilities/vtklibxml2/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:127: cmTC_22e38/fast] Error 2
+
+
+

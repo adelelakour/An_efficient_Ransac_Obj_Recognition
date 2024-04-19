@@ -1,0 +1,6 @@
+<ManipulationObject name='master_chef_can'>
+	<Visualization>
+		<File type='inventor'>../stl/master_chef_can.stl</File>
+		<UseAsCollisionModel/>
+	</Visualization>
+</ManipulationObject>

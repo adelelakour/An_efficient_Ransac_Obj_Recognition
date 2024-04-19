@@ -1,0 +1,6 @@
+<ManipulationObject name='mustard_bottle'>
+	<Visualization>
+		<File type='inventor'>../stl/mustard_bottle.stl</File>
+		<UseAsCollisionModel/>
+	</Visualization>
+</ManipulationObject>
