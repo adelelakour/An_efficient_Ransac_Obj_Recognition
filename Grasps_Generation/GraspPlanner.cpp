@@ -22,14 +22,8 @@ int main(int argc, char* argv[])
     VirtualRobot::init(argc, argv, "Simox Grasp Planner");
     std::cout << " --- START --- " << std::endl;
     std::cout << endl << "Hint: You can start this demo for different hands:" << std::endl;
-    std::cout << "GraspPlanner --robot robots/iCub/iCub.xml --endeffector \"Left Hand\" --preshape \"Grasp Preshape\"" << std::endl;
-    std::cout << "GraspPlanner --robot robots/Shadow_Dexterous_Hand/shadowhand.xml --endeffector \"SHADOWHAND\" --preshape \"Grasp Preshape\"" << std::endl;
-    std::cout << "GraspPlanner --robot robots/Schunk_SAH/SAH_RightHand.xml --endeffector \"Right Hand\" --preshape \"Grasp Preshape\"" << std::endl;
 
-
-    
-    // --robot robots/iCub/iCub.xml --endeffector "Left Hand" --preshape "Grasp Preshape"
-    std::string robot("robots/FRANKA/EEE.xml");
+    std::string robot("robots/FRANKA/FEE.xml");
     VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(robot);
     std::string eef("Panda Gripper");
 
@@ -40,8 +34,6 @@ int main(int argc, char* argv[])
         robot = robFile;
     }
 
-
-
     std::string eefname = VirtualRobot::RuntimeEnvironment::getValue("endeffector");
 
     if (!eefname.empty())
@@ -49,30 +41,9 @@ int main(int argc, char* argv[])
         eef = eefname;
     }
 
- /*   std::string object("objects/large_marker.xml");
-    std::string preshape("");
-
-    std::string ps = VirtualRobot::RuntimeEnvironment::getValue("preshape");
-
-    if (!ps.empty())
-    {
-        preshape = ps;
-    }
-
-
-    std::cout << "Using robot from " << robot << std::endl;
-    std::cout << "End effector:" << eef << ", preshape:" << preshape << std::endl;
-    std::cout << "Using object from " << object << std::endl;
-
-    GraspPlannerWindow rw(robot, eef, preshape, object);
-
-    rw.main();*/
-
-
-    std::string xmlDirectory = "/home/adel/simox/VirtualRobot/data/objects/YCB";
+    std::string xmlDirectory = "Simox/VirtualRobot/data/objects/YCB";
 
     std::vector <std::string> OBJECTS;
-
 
     for (const auto& entry : fs::directory_iterator(xmlDirectory)) {
         if (entry.is_regular_file() && entry.path().extension() == ".xml") {
@@ -80,8 +51,6 @@ int main(int argc, char* argv[])
             OBJECTS.push_back(xmlFile);
         }
     }
-
-
 
     std::string preshape("");
     std::string object = "";

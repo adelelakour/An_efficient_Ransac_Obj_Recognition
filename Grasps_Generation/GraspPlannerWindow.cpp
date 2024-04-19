@@ -4,7 +4,6 @@
 #include "GraspPlanning/ContactConeGenerator.h"
 #include "GraspPlanning/MeshConverter.h"
 #include <GraspPlanning/GraspQuality/GraspEvaluationPoseUncertainty.h>
-
 #include "VirtualRobot/EndEffector/EndEffector.h"
 #include "VirtualRobot/Workspace/Reachability.h"
 #include "VirtualRobot/ManipulationObject.h"
