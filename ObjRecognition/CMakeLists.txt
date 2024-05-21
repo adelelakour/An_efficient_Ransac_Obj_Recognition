@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.20)
 
 set(VTK_DIR ${CMAKE_CURRENT_LIST_DIR}/vtk-5.10.0)
 
+set (MODEL_DIR ${CMAKE_SOURCE_DIR}/models/vtk/)
+
 find_package(PCL 1.13 REQUIRED)
 cmake_policy(SET CMP0053 OLD)
 find_package(VTK)

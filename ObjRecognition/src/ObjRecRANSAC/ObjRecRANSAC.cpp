@@ -10,6 +10,8 @@
 #include <pthread.h>
 #include <random>
 
+
+
 ObjRecRANSAC::ObjRecRANSAC(double pairwidth, double voxelsize, double relNumOfPairsInHashTable)
         : mModelDatabase(pairwidth, voxelsize) {
     mSceneOctree = NULL;
@@ -185,10 +187,8 @@ bool compareOctreeNodesByCenter(const OctreeNode* a, const OctreeNode* b) {
 //=============================================================================================================================
 void ObjRecRANSAC::doRecognition(vtkPoints *scene, double successProbability, list<PointSetShape *> &out) {
 
-    srand (1001);
 
     auto startTime = std::chrono::steady_clock::now();
-    //srand(1000);
 
     if (scene->GetNumberOfPoints() <= 0)
         return;
@@ -203,9 +203,13 @@ void ObjRecRANSAC::doRecognition(vtkPoints *scene, double successProbability, li
 
     int i, numOfIterations = this->computeNumberOfIterations(successProbability, (int) scene->GetNumberOfPoints());
     vector<OctreeNode *> &fullLeaves = mSceneOctree->getFullLeafs();
+    cout << "fullLeaves.size " << fullLeaves.size() << endl;      // fixed, confirmed
 
-  /*  //********* I sorted fullLeaves according to the centroid of each voxel
-    std::sort(fullLeaves.begin(), fullLeaves.end(), compareOctreeNodesByCenter);*/
+    // numOfIterations is fixed, confirmed
+
+  /*  I sorted fullLeaves according to the centroid of each voxel
+    */
+    std::sort(fullLeaves.begin(), fullLeaves.end(), compareOctreeNodesByCenter);
 
     if ((int) fullLeaves.size() < numOfIterations)
         numOfIterations = (int) fullLeaves.size();
@@ -223,23 +227,38 @@ void ObjRecRANSAC::doRecognition(vtkPoints *scene, double successProbability, li
     // he created a vector of indecies
     vector<int> ids;
     ids.reserve(fullLeaves.size());
-    for (i = 0; i < (int) fullLeaves.size(); ++i) ids.push_back(i);
+    for (i = 0; i < (int) fullLeaves.size(); ++i) ids.push_back(i);   // we filled the vector with all possible ids
 
-    cout << "numOfIterations is : " << numOfIterations << endl;
-    cout << "fullLeaves.size " << fullLeaves.size() << endl;
+
+    std::mt19937 rng(1234); // You can use any integer value here
+
+    // Define your distribution
+    int min = 0;
+    int max = fullLeaves.size() - 1;
+    std::uniform_int_distribution<int> dist;
+
+
     // Sample the leaves at random (seeded)
     for (i = 0; i < numOfIterations; ++i) {
         // Choose a random position within the array of ids
-        int rand_pos = randgen.getRandomInteger(0, fullLeaves.size() - 1);
+        int rand_pos = dist(rng, decltype(dist)::param_type{min, max});   // consistent return (confirmed)
+        //cout << "rand_pose is ... " << rand_pos << endl;
         //cout << "rand_pose : " << rand_pos << endl;
         // Get the id at that random position
         leaves[i] = fullLeaves[ids[rand_pos]];
+        //cout << "leaves[i] : " << *leaves[i]->getCenter() <<endl;
         // Delete the selected id
         //ids.erase(ids.begin() + rand_pos);
     }
 
+
     // Sample the oriented point pairs
     this->sampleOrientedPointPairs(leaves, numOfIterations, mSampledPairs);
+
+    //✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+    // So far, I get the same (rand_pos), the same (leaves[i]) , sampled Pairs at every run ✓
+    //✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+
 
     // Generate the object hypotheses
     this->generateHypotheses(mSampledPairs);
@@ -298,7 +317,7 @@ void ObjRecRANSAC::doRecognition(vtkPoints *scene, double successProbability, li
 
 void ObjRecRANSAC::sampleOrientedPointPairs(OctreeNode **leaves1, int numOfLeaves, list<OrientedPair> &pairs) {
 
-
+    srand(123);
     OctreeNode *leaf2;
     ORROctreeNodeData *data1, *data2;
     const double *point1, *point2, *normal1, *normal2;
@@ -314,6 +333,7 @@ void ObjRecRANSAC::sampleOrientedPointPairs(OctreeNode **leaves1, int numOfLeave
     fflush(stdout);
 #endif
 
+
     for (i = 0; i < numOfLeaves; ++i) {
         // Get the first leaf (from the randomly sampled array of leaves)
         data1 = (ORROctreeNodeData *) leaves1[i]->getData();
@@ -327,6 +347,7 @@ void ObjRecRANSAC::sampleOrientedPointPairs(OctreeNode **leaves1, int numOfLeave
         point1 = data1->getPoint();
 
         // Randomly select a leaf at the right distance
+
         leaf2 = mSceneOctree->getRandomFullLeafOnSphere(point1, mPairWidth);
         if (!leaf2)
             continue;
@@ -339,8 +360,12 @@ void ObjRecRANSAC::sampleOrientedPointPairs(OctreeNode **leaves1, int numOfLeave
             continue;
         // Get the node point
         point2 = data2->getPoint();
+
+        cout << "point 1 is : " << *point1 << " & point 2 is : " << *point2 << endl;
         // Save the sampled point pair
         pairs.push_back(OrientedPair(point1, normal1, point2, normal2));
+
+        // I sample the same pairs at every run (confirmed)
     }
 
 #ifdef OBJ_REC_RANSAC_VERBOSE

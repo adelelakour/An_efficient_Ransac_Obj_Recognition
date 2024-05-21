@@ -1,10 +1,3 @@
-/*
- * utils.cpp
- *
- *  Created on: Dec 6, 2010
- *      Author: papazov
- */
-
 #include <ObjRecRANSAC/ObjRecRANSAC.h>
 #include <ObjRecRANSAC/Shapes/PointSetShape.h>
 #include <ObjRecRANSACVis/ORRRangeImage2vtk.h>
@@ -28,115 +21,64 @@
 #include <vtkPolyDataWriter.h>
 #include <vtkVertexGlyphFilter.h>
 
+#include <nlohmann/json.hpp>
+
+#include "globals.h"
+
+using json = nlohmann::json;
+
 
 using namespace std;
 using namespace Eigen;
 
-
 typedef vector<vector<Eigen::Vector4d>> ContactList;
 
+//***********************************
+Eigen::Matrix4d estimatedPOSEinEigen_util(const double* rigidTransform) {
+
+    // Extract rotation matrix elements
+    Eigen::Matrix3d rotationMatrix;
+    rotationMatrix << rigidTransform[0], rigidTransform[1], rigidTransform[2],
+            rigidTransform[3], rigidTransform[4], rigidTransform[5],
+            rigidTransform[6], rigidTransform[7], rigidTransform[8];
+
+    Eigen::Vector3d translationVector(rigidTransform[9], rigidTransform[10], rigidTransform[11]);
+
+    Eigen::Matrix4d transformMatrix = Eigen::Matrix4d::Identity();
+
+    transformMatrix.block<3, 3>(0, 0) = rotationMatrix;
+
+    transformMatrix.block<3, 1>(0, 3) = translationVector;
+
+    return transformMatrix;
+}
 
 
-
-
+//*****************************************
 void utils_convert_to_vtk(cv::Mat &img, vtkPoints *pts, double depthThreshold) {
-    int NegXY{0};
     double p[3];
     for (int j = 0; j < img.rows; ++j) {
         for (int i = 0; i < img.cols; ++i) {
             // depth threshold
             if (img.at<cv::Vec3f>(j, i)[2] < depthThreshold) {
-                // convert to mm and shift by 1 meter in all directions
-                p[0] = (img.at<cv::Vec3f>(j, i)[0]) * 1000.0,
-                p[1] = (img.at<cv::Vec3f>(j, i)[1]) * 1000.0,
-                p[2] = (img.at<cv::Vec3f>(j, i)[2]) * 1000.0,
+                // convert to mm
+                p[0] = img.at<cv::Vec3f>(j, i)[0] * 1000.0,
+                p[1] = -img.at<cv::Vec3f>(j, i)[1] * 1000.0,
+                p[2] = img.at<cv::Vec3f>(j, i)[2] * 1000.0;
                 pts->InsertNextPoint(p);
             }
         }
     }
-
-    double x_min {0};
-    double y_min {0};
-
-    for (int i = 0; i < pts->GetNumberOfPoints(); ++i)
-    {
-        double PointInThisVTKcloud [3];
-        pts->GetPoint(i, PointInThisVTKcloud);
-        if (PointInThisVTKcloud[0] < x_min) { x_min = PointInThisVTKcloud[0];}
-        if (PointInThisVTKcloud[1] < y_min) { y_min = PointInThisVTKcloud[1];}
-    }
-
-    double PointInThisVTKcloud2 [3];
-    for (int ii = 0; ii < pts->GetNumberOfPoints(); ++ii)
-    {
-        pts->GetPoint(ii, PointInThisVTKcloud2);
-        PointInThisVTKcloud2[0]+= x_min;
-        PointInThisVTKcloud2[1]+= y_min;
-    }
-
-    double PointInThisVTKcloud3 [3];
-    for (int iii = 0; iii < pts->GetNumberOfPoints(); ++iii)
-    {
-        pts->GetPoint(iii, PointInThisVTKcloud2);
-        if (PointInThisVTKcloud3[0] < 0 || PointInThisVTKcloud3[1] < 0)
-        {
-            NegXY++;
-        }
-    }
-
-    cout << "min x-value is : " << x_min << endl;
-    cout << "min y-value is : " << y_min << endl;
-    cout << "number of negative values in X or Y : " << NegXY << endl;
-
-    vtkSmartPointer<vtkPolyData> polydata = vtkSmartPointer<vtkPolyData>::New();
-    polydata->SetPoints(pts);
-
-    vtkSmartPointer<vtkPolyDataWriter> writer = vtkSmartPointer<vtkPolyDataWriter>::New();
-    writer->SetFileName("Exported_vtk_cloud.vtk");
-    writer->SetInput(polydata); // Use SetInput instead of SetInputData
-    writer->Write();
-
 }
 
+void utils_vis(ObjRecRANSAC *objrec,
+               vtkPoints *scene,
+               list<PointSetShape *> &shapes,
+               bool visualizeSceneRange,
+               bool visualizeOctree,
+               bool visualizeSampledPointPairs)
 
-//============================================================
-Eigen::Matrix4d convertToEigenMatrix(const double* matrixPtr) {
-    Eigen::Matrix4d result;
-
-    // Copy the values from the pointer to the Eigen matrix
-    for (int i = 0; i < 4; ++i) {
-        for (int j = 0; j < 4; ++j) {
-            result(i, j) = matrixPtr[i * 4 + j];
-        }
-    }
-
-    return result;
-}
-//============================================================
-#include <Eigen/Dense>
-
-array<long double, 3> transformPoint(const Eigen::Matrix4d& transformationMatrix, const array<long double, 3> inputPoint, array<long double, 3> outputPoint) {
-    Eigen::Vector4d inputVec(inputPoint[0], inputPoint[1], inputPoint[2], 1.0);
-    Eigen::Vector4d outputVec = transformationMatrix * inputVec;
-
-    // Copy the transformed coordinates to the output array
-    outputPoint[0] = outputVec[0];
-    outputPoint[1] = outputVec[1];
-    outputPoint[2] = outputVec[2];
-
-    return outputPoint;
-}
-//============================================================
-
-
-
-
-
-
-
-void utils_vis(ObjRecRANSAC *objrec, vtkPoints *scene, list<PointSetShape *> &shapes, unordered_map<string, GRASPS_vector_for_one_model> retrieved_grasps, bool visualizeSceneRange = false,
-               bool visualizeOctree = false, bool visualizeSampledPointPairs = false, vector<vector<Eigen::Vector4f>> List_of_contact_points = {})
-               {
+{
     printf("visualizing ...\n");
     fflush(stdout);
 
@@ -179,13 +121,13 @@ void utils_vis(ObjRecRANSAC *objrec, vtkPoints *scene, list<PointSetShape *> &sh
 
     list<VtkPolyData *> my_shapes_list;
 
-    for (auto shape: shapes) {
-        // Which object do we have
-        if (shape->getUserData()) {
-            printf("\t%s\n", shape->getUserData()->getLabel());
-        }
+    json Off_Data;
+    ifstream INPUT (Offline_generated_grasps);
+    INPUT >> Off_Data;
+    INPUT.close();
 
-        // Get the transformation matrix
+    for (auto shape : shapes) {
+        // Retrieve the transformation matrix for the shape
         double **mat = mat_alloc(4, 4);
         shape->getHomogeneousRigidTransform(mat);
 
@@ -196,68 +138,82 @@ void utils_vis(ObjRecRANSAC *objrec, vtkPoints *scene, list<PointSetShape *> &sh
         // Transform the mesh
         vtkTransformPolyDataFilter *transformer = vtkTransformPolyDataFilter::New();
         transformer->SetInput(vtk_shape);
-        VtkTransform::mat4x4ToTransformer((const double **) mat, transformer);
+        VtkTransform::mat4x4ToTransformer((const double **)mat, transformer);
 
         // Visualize the mesh
         auto *my_shape = new VtkPolyData(transformer->GetOutput());
         my_shape->setColor(1.0, 0.7, 0.1);
         vtkwin.addToRenderer(my_shape->getActor());
-        // Save the pointer in order to delete it later
-        my_shapes_list.push_back(my_shape);
 
-        cout << "Gggggggggggggggggggggggggg" << endl;
-//********************************
-    for (auto C : List_of_contact_points)
-    {
-        cout << "xxxxxxxxxxxxx" << endl;
-        Eigen::Vector3d PointA = {C[0][0], C[0][1], C[0][2]};
-        Eigen::Vector3d PointB = {C[1][0], C[1][1], C[1][2]};
+        // Transform and visualize contact points
+        array<double, 3> PNT1_array = Off_Data[RobotHand][shape->getUserData()->getLabel()][GraspNumber]["CNT_PNT"][0];
+        PNT1_array [0] *= 1000;
+        PNT1_array [1] *= 1000;
+        PNT1_array [2] *= 1000;
 
-        cout << "PointA is : " << PointA << endl;
-        cout << "PointB is : " << PointB << endl;
+        array<double, 3> PNT2_array = Off_Data[RobotHand][shape->getUserData()->getLabel()][GraspNumber]["CNT_PNT"][1];
+        PNT2_array [0] *= 1000;
+        PNT2_array [1] *= 1000;
+        PNT2_array [2] *= 1000;
 
-        vtkSmartPointer<vtkPoints> vtk_points = vtkSmartPointer<vtkPoints>::New();
-        vtk_points->InsertNextPoint(PointA.data());
-        vtk_points->InsertNextPoint(PointB.data());
+        std::cout << "Original PNT1_eigen: " << PNT1_array[0] << ", " << PNT1_array[1] << ", " << PNT1_array[2] << std::endl;
+        std::cout << "Original PNT2_eigen: " << PNT2_array[0] << ", " << PNT2_array[1] << ", " << PNT2_array[2] << std::endl;
 
-        // Create VTK actors for PointA and PointB
-        vtkSmartPointer<vtkPolyData> vtk_polydata = vtkSmartPointer<vtkPolyData>::New();
-        vtk_polydata->SetPoints(vtk_points);
+        // Contact points in Eigen
+        Eigen::Vector4d PNT1_eigen(PNT1_array[0], PNT1_array[1], PNT1_array[2], 1.0);
+        Eigen::Vector4d PNT2_eigen(PNT2_array[0], PNT2_array[1], PNT2_array[2], 1.0);
 
-        vtkSmartPointer<vtkGlyph3D> glyphFilter = vtkSmartPointer<vtkGlyph3D>::New();
-        glyphFilter->SetInput(vtk_polydata);
-        glyphFilter->SetScaleModeToDataScalingOff();
-        glyphFilter->SetScaleFactor(1); // Set the scale factor as needed
-
-        vtkSmartPointer<vtkSphereSource> sphereSource = vtkSmartPointer<vtkSphereSource>::New();
-        sphereSource->SetRadius(5); // Set the radius of the spheres representing points
-
-        glyphFilter->SetSourceConnection(sphereSource->GetOutputPort());
-
-        vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
-        mapper->SetInputConnection(glyphFilter->GetOutputPort());
-
-        vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
-        actor->SetMapper(mapper);
-        actor->GetProperty()->SetColor(1.0, 0.0, 0.0); // Set color to red for both points
-
-        // Add actors for PointA and PointB to the renderer
-        vtkwin.addToRenderer(actor);
-    }
+        Eigen::Matrix4d shape_pose_in_eigen;
+        for (int i = 0; i < 4; ++i) {
+            for (int j = 0; j < 4; ++j) {
+                shape_pose_in_eigen(i, j) = mat[i][j];
+            }
+        }
 
 
+        cout << shape->getUserData()->getLabel() <<" pose_in_eigen is : \n" << shape_pose_in_eigen << endl;
 
-//*****************
+        Eigen::Vector4d PNT1_transformed = shape_pose_in_eigen * PNT1_eigen;
+        Eigen::Vector4d PNT2_transformed = shape_pose_in_eigen * PNT2_eigen;
+
+        cout << "PNT1_transformed \n " << PNT1_transformed << endl;
+        cout << "PNT2_transformed \n " << PNT2_transformed << endl;
+
+        // Visualize red spheres at transformed contact points
+        // Note: Adjust radius and color as needed
+        vtkSmartPointer<vtkSphereSource> sphereSource1 = vtkSmartPointer<vtkSphereSource>::New();
+        sphereSource1->SetCenter(PNT1_transformed[0], PNT1_transformed[1], PNT1_transformed[2]);
+        sphereSource1->SetRadius(5.0);
+        vtkSmartPointer<vtkPolyDataMapper> mapper1 = vtkSmartPointer<vtkPolyDataMapper>::New();
+        mapper1->SetInputConnection(sphereSource1->GetOutputPort());
+        vtkSmartPointer<vtkActor> actor1 = vtkSmartPointer<vtkActor>::New();
+        actor1->SetMapper(mapper1);
+        actor1->GetProperty()->SetColor(1.0, 0.0, 0.0); // Red color
+        vtkwin.addToRenderer(actor1);
+
+        vtkSmartPointer<vtkSphereSource> sphereSource2 = vtkSmartPointer<vtkSphereSource>::New();
+        sphereSource2->SetCenter(PNT2_transformed[0], PNT2_transformed[1], PNT2_transformed[2]);
+        sphereSource2->SetRadius(5.0);
+        vtkSmartPointer<vtkPolyDataMapper> mapper2 = vtkSmartPointer<vtkPolyDataMapper>::New();
+        mapper2->SetInputConnection(sphereSource2->GetOutputPort());
+        vtkSmartPointer<vtkActor> actor2 = vtkSmartPointer<vtkActor>::New();
+        actor2->SetMapper(mapper2);
+        actor2->GetProperty()->SetColor(1.0, 0.0, 0.0); // Red color
+        vtkwin.addToRenderer(actor2);
+
+
         // Cleanup
         vtk_shape->Delete();
         transformer->Delete();
         mat_dealloc(mat, 3);
     }
 
+
+
+
     // Visualize the sampled point pairs
     if (visualizeSampledPointPairs) {
         list<ObjRecRANSAC::OrientedPair> &point_pairs = objrec->getSampledPairs();
-        std::cout << "We sampled " << point_pairs.size() << " pairs from the scene " << std::endl;
         vtkPoints *vtk_sampled_pairs = vtkPoints::New(VTK_DOUBLE);
         // Get all sampled point pairs
         for (auto &point_pair: point_pairs) {

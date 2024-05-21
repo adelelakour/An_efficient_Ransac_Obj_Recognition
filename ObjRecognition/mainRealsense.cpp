@@ -1,28 +1,38 @@
-
 #include <BasicTools/ComputationalGeometry/Algorithms/RANSACPlaneDetector.h>
 #include <ObjRecRANSAC/ObjRecRANSAC.h>
 #include <ObjRecRANSAC/Shapes/PointSetShape.h>
 #include <opencv2/opencv.hpp>
 #include <vtkPolyDataReader.h>
+#include "config.h"
+
+
+//Standard
 #include <list>
 #include <atomic>
 #include <thread>
-#include <librealsense2/rs.hpp>
-#include <opencv2/opencv.hpp>
-#include "example.hpp"
-#include <pcl/io/ply_io.h>
-#include <pcl/point_types.h>
-#include <nlohmann/json.hpp>
+#include <random>
+#include <cstdlib>
 #include <fstream>
 #include <filesystem>
 #include <unordered_map>
+#include <array>
 
-#include "CustomTypes.h"
-#include <random>
-#include <ctime>
-#include <cstdlib>
+// PCL 
+#include <pcl/io/ply_io.h>
+#include <pcl/point_types.h>
+
+// RealSense
+#include <librealsense2/rs.hpp>
+#include "example.hpp"
+
+// Eigen
 #include <Eigen/Geometry>
 #include <Eigen/Core>
+
+#include <nlohmann/json.hpp>
+#include "CustomTypes.h"
+#include "globals.h"
+
 
 using namespace std;
 using namespace cv;
@@ -31,50 +41,40 @@ using json = nlohmann::json;
 namespace fs = std::filesystem;
 
 
-string Offline_generated_grasps = "../files/Database16.json";
-string RobotHand = "Panda Gripper";
+
+std::string Offline_generated_grasps = "../files/Database_22_highQualityGrasps.json";
+std::string to_panda_json = "../files/Grasping_Data_to_Panda.json";
+std::string RobotHand = "Panda Gripper";
+std::string GraspNumber = "Grasp0";
+
 
 //********** declarations
 void utils_convert_to_vtk(cv::Mat &img, vtkPoints *pts, double depthThreshold = 4.0);
 
-void utils_vis(ObjRecRANSAC *objrec, vtkPoints *scene, list<PointSetShape *> &shapes, unordered_map<string, GRASPS_vector_for_one_model> retrieved_grasps, bool visualizeSceneRange = false,
-               bool visualizeOctree = false, bool visualizeSampledPointPairs = false, vector<vector<Eigen::Vector4f>> List_of_contact_points = {});
+void utils_vis(ObjRecRANSAC *objrec, vtkPoints *scene, list<PointSetShape *> &shapes,
+               bool visualizeSceneRange = false,
+               bool visualizeOctree = false,
+               bool visualizeSampledPointPairs = false);
+
 
 void loadModels(ObjRecRANSAC &objrec, list<UserData *> &userDataList, list<vtkPolyDataReader *> &readers,
                 std::string const &modelDirectory, bool loadStandardModels = true, bool loadDLRModels = false);
 
 vtkPoints *preprocessScene(vtkPoints *scene_in, double depthThreshold, bool removePlane);
 
+//######################################################################################################################
 
-//==========
-void saveObjectContactToJson(const std::string& label, const double * estimatedPose, const Eigen::Matrix<float, 4, 1> & CP1, const Eigen::Matrix<float, 4, 1> & CP2) {
+Eigen::Matrix4d estimatedPOSEinEigen(const double* rigidTransform) {
 
-    json objContact;
-    objContact[label] = *estimatedPose;
-    objContact[label]["CP1"] = {CP1[0], CP1[1], CP1[2], CP1[3]};
-    objContact[label]["CP2"] = {CP2[0], CP2[1], CP2[2], CP2[3]};
-
-    std::ofstream outputFile("Object_Contact.json");
-    if (outputFile.is_open()) {
-        outputFile << std::setw(4) << objContact << std::endl;
-        outputFile.close();
-        std::cout << "Object contact information saved to Object_Contact.json" << std::endl;
-    } else {
-        std::cerr << "Unable to open file for writing." << std::endl;
-    }
-}
-
-//************************** Eigen::Matrix4f pose estimation
-Eigen::Matrix4f estimatedPOSEinEigen(const double* rigidTransform) {
     // Extract rotation matrix elements
-    Eigen::Matrix3f rotationMatrix;
+    Eigen::Matrix3d rotationMatrix;
     rotationMatrix << rigidTransform[0], rigidTransform[1], rigidTransform[2],
             rigidTransform[3], rigidTransform[4], rigidTransform[5],
             rigidTransform[6], rigidTransform[7], rigidTransform[8];
 
-    Eigen::Vector3f translationVector(rigidTransform[9], rigidTransform[10], rigidTransform[11]);
+    Eigen::Vector3d translationVector(rigidTransform[9], rigidTransform[10], rigidTransform[11]);
 
-    Eigen::Matrix4f transformMatrix = Eigen::Matrix4f::Identity();
+    Eigen::Matrix4d transformMatrix = Eigen::Matrix4d::Identity();
 
     transformMatrix.block<3, 3>(0, 0) = rotationMatrix;
 
@@ -83,7 +83,6 @@ Eigen::Matrix4f estimatedPOSEinEigen(const double* rigidTransform) {
     return transformMatrix;
 }
 
-
 //**********************************
 Eigen::Vector4f arrayToEigenVector(const double * array) {
     Eigen::Vector4f vector;
@@ -91,59 +90,54 @@ Eigen::Vector4f arrayToEigenVector(const double * array) {
     return vector;
 }
 
-//********************************
-vector<vector<double>> getContactPoints(const string& RobotHand, const string& Object, const string& GraspNum) {
-    ifstream file("Offline_Generated_Grasps.json");
-    if (!file.is_open()) {
-        cerr << "Error: Unable to open file." << endl;
-        return {};
+//**********************************
+void saveGraspingDataForPanda(const std::string& label, std::array<double, 16>  estimatedPose, std::array<double, 3> Mean_gripper, std::array<double, 3> AppDir) {
+
+    json oldData;
+    std::ifstream inputFile(to_panda_json);
+    if (inputFile.is_open()) {
+        inputFile >> oldData;
+    } else {
+        std::cerr << "Failed to open Grasping_Data_to_Panda.json" << std::endl;
+        return;
     }
 
-    json root;
-    file >> root;
+    // Fill the JSON object with your data
+    json newData;
+    newData["estimatedPose"] = estimatedPose;
+    newData["Mean_gripper"] = {Mean_gripper[0], Mean_gripper[1], Mean_gripper[2]};
+    newData["AppDir"] = {AppDir[0], AppDir[1], AppDir[2]};
 
-    if (root.find(RobotHand) == root.end()) {
-        cerr << "Error: Robot hand not found." << endl;
-        return {};
+    if (oldData.contains(label))
+    {
+        // If the label already exists, you can update the data for that label
+        oldData[label] = newData;
+    } else
+    {
+        // If the label doesn't exist, simply add the new data
+        oldData[label] = newData;
     }
 
-    if (root[RobotHand].find(Object) == root[RobotHand].end()) {
-        cerr << "Error: Object not found for the given robot hand." << endl;
-        return {};
+    std::ofstream outputFile(to_panda_json);
+    if (outputFile.is_open()) {
+        outputFile << oldData.dump(4) << std::endl;
+        outputFile.close();
+    } else {
+        std::cerr << "Unable to open file for writing!" << std::endl;
     }
-
-    if (root[RobotHand][Object].find(GraspNum) == root[RobotHand][Object].end()) {
-        cerr << "Error: Grasp number not found for the given object and robot hand." << endl;
-        return {};
-    }
-
-    vector<vector<double>> contactPoints;
-
-    for (const auto& coord : root[RobotHand][Object][GraspNum]) {
-        vector<double> point;
-        for (const auto& val : coord) {
-            point.push_back(val);
-        }
-        contactPoints.push_back(point);
-    }
-
-    return contactPoints;
 }
 
-//====================================================================================================================================
 
-void objrec_func(void *v_pipe, std::atomic<bool> &exitFlag, std::atomic<bool> &performRecognition,
-                 bool visualizeAllScenePoints, std::string const &modelDir) {
-
-    //auto *kinect = reinterpret_cast<cv::VideoCapture *>(v_kinect);
-    auto *RealSense_pipeline = reinterpret_cast<rs2::pipeline *>(v_pipe);
+//**********************************
+void objrec_func(vtkPoints* IN_VTKscene, std::atomic<bool> &exitFlag, std::atomic<bool> &performRecognition,
+                       bool visualizeAllScenePoints, std::string const &modelDir) {
 
     ObjRecRANSAC objrec(40.0/*pair width*/, 4.5/*voxel size*/, 0.5/*pairs to save*/);
     objrec.setVisibility(0.28); // 0.28
     objrec.setRelativeNumberOfIllegalPoints(0.02);
     objrec.setRelativeObjectSize(0.06);
     objrec.setIntersectionFraction(0.1); // 0.08
-    objrec.setNumberOfThreads(8);
+    objrec.setNumberOfThreads(1);
 
     // Load the models
     list<UserData *> userDataList; // Look inside the next function to see how to use this list
@@ -161,121 +155,98 @@ void objrec_func(void *v_pipe, std::atomic<bool> &exitFlag, std::atomic<bool> &p
 
         std::cout << "recognizing" << std::endl;
 
-        //RealSense_pipeline->start();
-        rs2::frameset frames;
-        rs2::frame color_frame, depth_frame;
-
-        // Get color and depth frames
-        frames = RealSense_pipeline->wait_for_frames();
-        color_frame = frames.get_color_frame();
-        depth_frame = frames.get_depth_frame();
-        // Get width and height of the frames
-        int w = color_frame.as<rs2::video_frame>().get_width();
-        int h = color_frame.as<rs2::video_frame>().get_height();
-
-        // Create cv::Mat for color and depth frames
-        cv::Mat color_image(cv::Size(w, h), CV_8UC3, (void*)color_frame.get_data(), cv::Mat::AUTO_STEP);
-        cv::Mat depth_image(cv::Size(w, h), CV_16U, (void*)depth_frame.get_data(), cv::Mat::AUTO_STEP);
-
-        int width = depth_frame.as<rs2::video_frame>().get_width();
-        int height = depth_frame.as<rs2::video_frame>().get_height();
-
-        rs2::pointcloud pc;
-        rs2::points points = pc.calculate(depth_frame);
-
-        cv::Mat pointCloudMat(cv::Size(width, height), CV_32FC3, (void*)points.get_vertices(), cv::Mat::AUTO_STEP);
-
-        // Convert to vtkPoints
-        vtkPoints *scene_in = vtkPoints::New(VTK_DOUBLE);
-        utils_convert_to_vtk(pointCloudMat, scene_in, 100);
-
         // Scene preprocessing
-        bool removePlane = true;
+        bool removePlane = false;
         double maxz = 1050.0;  // in mm
-        vtkPoints *scene_out = preprocessScene(scene_in, maxz, removePlane); //
+
+        vtkPoints *scene_out = preprocessScene(IN_VTKscene, maxz, removePlane); //
 
         std::vector<std::pair<string, Eigen::Matrix4f>> Object_Pose;
         std::vector<std::pair<std::string, double>> objectConfidences;
 
         objrec.doRecognition(scene_out, 0.995, shapes);
 
+
         std::ifstream file(Offline_generated_grasps);
         if (!file.is_open()) {
             std::cerr << "Failed to open file." << std::endl;
-            return;
         }
 
-        json data;
-        file >> data;
+        json JsonData;
+        file >> JsonData;
 
-        vector<vector<Eigen::Vector4f>> List_of_contact_points;
+        unordered_map<string, array<array<double, 3>, 2>> obj_vs_points;
 
         for (auto& detected_shape : shapes) {
 
-            auto label_of_detected_shape = detected_shape->getUserData()->getLabel();
-            cout << "I detected " << label_of_detected_shape << endl;
+            string Object_Label = detected_shape->getUserData()->getLabel();
 
-            const double* Pose_of_detected_shape = detected_shape->getRigidTransform();
-            Eigen::Matrix4f Pose_of_detected_shape_IN_Eigen = estimatedPOSEinEigen(Pose_of_detected_shape);
+            cout << "I detected " << Object_Label << endl;
 
-            cout << " Estimated pose in Eigen is : \n" << Pose_of_detected_shape_IN_Eigen << endl;
+            auto Pose_of_detected_shape = detected_shape->getRigidTransform();
 
-            auto Grasp_of_detected_shape = data[RobotHand][label_of_detected_shape]["grasp1"];
+            Eigen::Matrix4d Pose_of_detected_shape_IN_Eigen = estimatedPOSEinEigen(Pose_of_detected_shape);
 
-            auto CONT_A = Grasp_of_detected_shape[0];
-            auto CONT_B = Grasp_of_detected_shape[1];
+            array <double, 16> Pose_of_detected_shape_in_16;
+             for (int i = 0; i < 4; ++i) {
+                    for (int j = 0; j < 4; ++j) {
+                        Pose_of_detected_shape_in_16[i * 4 + j] = static_cast<double>(Pose_of_detected_shape_IN_Eigen(i, j));
+                    }
+                }
 
-            cout << "CONTACT_POINT_1_in_OBJ_FRAME is : " << CONT_A[0] << " , "  << CONT_A[1] << " , " << CONT_A[2]<< " "<< endl;
-            cout << "CONTACT_POINT_2_in_OBJ_FRAME is : " << CONT_B[0] << " , "  << CONT_B[1] << " , " << CONT_B[2]<< " "<< endl;
+             cout << "Pose_of_detected_shape_in_16 is .. \n" << endl;
 
+             for (auto d : Pose_of_detected_shape_in_16)
+             {
+                 cout << d << endl;
+             }
 
-            Eigen::Vector4f CONT_A_in_Eigen;
-            CONT_A_in_Eigen[0] = CONT_A[0];
-            CONT_A_in_Eigen[1] = CONT_A[1];
-            CONT_A_in_Eigen[2] = CONT_A[2];
-            CONT_A_in_Eigen[3] = 1.0;
-
-            Eigen::Vector4f CONT_B_in_Eigen;
-            CONT_B_in_Eigen[0] = CONT_B[0];
-            CONT_B_in_Eigen[1] = CONT_B[1];
-            CONT_B_in_Eigen[2] = CONT_B[2];
-            CONT_B_in_Eigen[3] = 1.0;
-
-            cout << "A in Obj Frame  in Egi " << CONT_A_in_Eigen << endl;
-            cout << "B in Obj Frame  in Egi " << CONT_B_in_Eigen << endl;
-
-            Eigen::Vector4f CONTACT_POINT_A_in_CAM_FRAME = Pose_of_detected_shape_IN_Eigen * CONT_A_in_Eigen;
-            Eigen::Vector4f CONTACT_POINT_B_in_CAM_FRAME = Pose_of_detected_shape_IN_Eigen * CONT_B_in_Eigen;
+            Pose_of_detected_shape_in_16[3] /= 1000;
+            Pose_of_detected_shape_in_16[7] /= 1000;
+            Pose_of_detected_shape_in_16[11] /= 1000;
 
 
-            cout << "CONTACT_POINT_A_in_CAM_FRAME : " << CONTACT_POINT_A_in_CAM_FRAME << endl;
-            cout << "CONTACT_POINT_B_in_CAM_FRAME : " << CONTACT_POINT_B_in_CAM_FRAME << endl;
+            // I retrieve the two contact points for this shape from the json file
+            vector<array<double, 3>> TWO_CONT_POINTS;
 
-            vector<Eigen::Vector4f > ContactPair;
-            ContactPair.push_back(CONTACT_POINT_A_in_CAM_FRAME);
-            ContactPair.push_back(CONTACT_POINT_B_in_CAM_FRAME);
-            List_of_contact_points.push_back(ContactPair);
+            auto Grasp_of_detected_shape = JsonData[RobotHand][Object_Label][GraspNumber]["CNT_PNT"];
+            array<double,3> CNT_PNT_1 = Grasp_of_detected_shape[0];
+            array<double,3> CNT_PNT_2 = Grasp_of_detected_shape[1];
 
-            saveObjectContactToJson(label_of_detected_shape, Pose_of_detected_shape, CONTACT_POINT_A_in_CAM_FRAME, CONTACT_POINT_B_in_CAM_FRAME);
-        }
+            cout << "CNT_PNT_1 is .. " << CNT_PNT_1 [0] << ", " << CNT_PNT_1[1] << ", " << CNT_PNT_1[2] << endl;
+            cout << "CNT_PNT_2 is .. " << CNT_PNT_2 [0] << ", " << CNT_PNT_2[1] << ", " << CNT_PNT_2[2] << endl;
 
-        for (auto Item : Object_Pose)
-        {
-            cout << Item.first << " pose is : \n " << Item.second << endl;
-        }
 
-        utils_vis(&objrec, scene_out, shapes, retrieved_grasps,false , false , false, List_of_contact_points);
+            auto Grasp_Approach = JsonData[RobotHand][Object_Label][GraspNumber]["APP_DIR"];
+            std::array<double, 3> Grasp_Approach_Direction = Grasp_Approach;
 
+
+            std::array<double, 3> Mean_point_to_Panda;
+            for (int i = 0; i < 3; i++)
+            {
+                Mean_point_to_Panda [i] = (CNT_PNT_1[i] + CNT_PNT_2[i])/2;
+            }
+
+            // so far, I've the mean, the pose of object w.r.t camera frame, the grasping approach
+
+            saveGraspingDataForPanda(Object_Label,
+                                     Pose_of_detected_shape_in_16,
+                                     Mean_point_to_Panda,
+                                     Grasp_Approach_Direction);
+            }
+
+
+        utils_vis(&objrec, scene_out, shapes,false , false , false);
 
         // Cleanup
         for (auto &shape: shapes) {
             delete shape;
         }
         shapes.clear();
-        scene_in->Delete();
+        IN_VTKscene->Delete();
         scene_out->Delete();
         performRecognition.store(false);
-        List_of_contact_points.clear();
+        obj_vs_points.clear();
     }
 
     // Destroy the 'UserData' objects
@@ -292,35 +263,21 @@ void objrec_func(void *v_pipe, std::atomic<bool> &exitFlag, std::atomic<bool> &p
 
 }
 
+//**********************************
+vtkPoints* readVTKPointCloud(const std::string& filePath) {
+    vtkPolyDataReader* reader = vtkPolyDataReader::New();
+    reader->SetFileName(filePath.c_str());
+    reader->Update();
 
-int main() {
+    vtkPoints* points = reader->GetOutput()->GetPoints()->NewInstance();
+    points->DeepCopy(reader->GetOutput()->GetPoints());
 
-    uint16_t mGamma[2048];
-    srand(1000);
+    reader->Delete();
 
-    rs2::pipeline pipe;
-    pipe.start();
-
-    std::atomic<bool> exitFlag(false);
-    std::atomic<bool> performRecognition(false);
-
-    // Start a thread for the object recognition
-    std::string modelDir = "/home/adelelakour/CLionProjects/objectmeshrecognition/models/vtk/";
-    //std::thread thread_objrec(objrec_func, &pipe, std::ref(exitFlag), std::ref(performRecognition), true, modelDir);
-    objrec_func (&pipe, std::ref(exitFlag), std::ref(performRecognition), true, modelDir);
-
-    // I did not understand what this for loop does
-    for (int i = 0; i < 2048; ++i) {
-        auto v = float(i / 2048.0);
-        v = powf(v, 3) * 6;
-        mGamma[i] = v * 6 * 256;
-    }
-
-    return 0;
+    return points;
 }
 
-//====================================================================================================================================
-
+//**********************************
 void loadModels(ObjRecRANSAC &objrec, list<UserData *> &userDataList, list<vtkPolyDataReader *> &readers,
                 std::string const &modelDirectory, bool loadStandardModels, bool loadDLRModels) {
 
@@ -386,7 +343,7 @@ void loadModels(ObjRecRANSAC &objrec, list<UserData *> &userDataList, list<vtkPo
 }
 
 
-//====================================================================================================================================
+//**********************************
 
 vtkPoints *preprocessScene(vtkPoints *in, double depthThreshold, bool removePlane) {
     vtkPoints *nearScene, *out = vtkPoints::New(VTK_DOUBLE);
@@ -443,3 +400,28 @@ vtkPoints *preprocessScene(vtkPoints *in, double depthThreshold, bool removePlan
     return out;
 }
 
+//**********************************
+
+int main() {
+
+    uint16_t mGamma[2048];
+    srand(2);
+
+    std::string SAVED_IN_SCENE = "Apple_Soda_Drill.vtk";
+    vtkPoints* IN_vtk_pointCloud = readVTKPointCloud(SAVED_IN_SCENE);
+
+    std::atomic<bool> exitFlag(false);
+    std::atomic<bool> performRecognition(false);
+
+    std::string modelDir = MODEL_DIR;
+
+    objrec_func (IN_vtk_pointCloud, std::ref(exitFlag), std::ref(performRecognition), true, modelDir);
+
+    for (int i = 0; i < 2048; ++i) {
+        auto v = float(i / 2048.0);
+        v = powf(v, 3) * 6;
+        mGamma[i] = v * 6 * 256;
+    }
+
+    return 0;
+}
