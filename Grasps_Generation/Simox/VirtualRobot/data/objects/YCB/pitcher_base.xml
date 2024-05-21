@@ -1,6 +1,0 @@
-<ManipulationObject name='pitcher_base'>
-	<Visualization>
-		<File type='inventor'>../stl/pitcher_base.stl</File>
-		<UseAsCollisionModel/>
-	</Visualization>
-</ManipulationObject>

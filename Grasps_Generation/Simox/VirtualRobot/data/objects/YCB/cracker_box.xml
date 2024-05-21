@@ -1,6 +1,0 @@
-<ManipulationObject name='cracker_box'>
-	<Visualization>
-		<File type='inventor'>../stl/cracker_box.stl</File>
-		<UseAsCollisionModel/>
-	</Visualization>
-</ManipulationObject>

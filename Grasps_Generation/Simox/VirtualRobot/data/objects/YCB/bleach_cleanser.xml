@@ -1,6 +1,0 @@
-<ManipulationObject name='bleach_cleanser'>
-	<Visualization>
-		<File type='inventor'>../stl/bleach_cleanser.stl</File>
-		<UseAsCollisionModel/>
-	</Visualization>
-</ManipulationObject>

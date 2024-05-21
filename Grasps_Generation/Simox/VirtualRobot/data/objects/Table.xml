@@ -1,6 +1,0 @@
-<ManipulationObject name='Table'>
-	<Visualization>
-		<File type='inventor'>iv/table.iv</File>
-		<UseAsCollisionModel/>
-	</Visualization>
-</ManipulationObject>

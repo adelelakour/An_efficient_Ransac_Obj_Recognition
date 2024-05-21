@@ -1,1 +1,0 @@
-ADD_SIMDYNAMICS_TEST(BulletFactoryTest)

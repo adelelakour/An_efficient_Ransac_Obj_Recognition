@@ -1,6 +1,0 @@
-<ManipulationObject name='fork'>
-	<Visualization>
-		<File type='inventor'>../stl/fork.stl</File>
-		<UseAsCollisionModel/>
-	</Visualization>
-</ManipulationObject>

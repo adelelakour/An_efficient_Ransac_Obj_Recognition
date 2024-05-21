@@ -1,6 +1,0 @@
-<ManipulationObject name='foam_brick'>
-	<Visualization>
-		<File type='inventor'>../stl/foam_brick.stl</File>
-		<UseAsCollisionModel/>
-	</Visualization>
-</ManipulationObject>

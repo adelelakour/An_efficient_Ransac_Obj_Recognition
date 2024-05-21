@@ -1,6 +1,0 @@
-<ManipulationObject name='tomato_soup_can'>
-	<Visualization>
-		<File type='inventor'>../stl/tomato_soup_can.stl</File>
-		<UseAsCollisionModel/>
-	</Visualization>
-</ManipulationObject>

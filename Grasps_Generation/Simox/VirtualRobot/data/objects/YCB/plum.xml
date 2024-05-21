@@ -1,6 +1,0 @@
-<ManipulationObject name='plum'>
-	<Visualization>
-		<File type='inventor'>../stl/plum.stl</File>
-		<UseAsCollisionModel/>
-	</Visualization>
-</ManipulationObject>

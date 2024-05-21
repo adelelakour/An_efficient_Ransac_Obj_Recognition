@@ -1,6 +1,0 @@
-<ManipulationObject name='mug'>
-	<Visualization>
-		<File type='inventor'>../stl/mug.stl</File>
-		<UseAsCollisionModel/>
-	</Visualization>
-</ManipulationObject>

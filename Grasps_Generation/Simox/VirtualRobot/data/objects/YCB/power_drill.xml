@@ -1,6 +1,0 @@
-<ManipulationObject name='power_drill'>
-	<Visualization>
-		<File type='inventor'>../stl/power_drill.stl</File>
-		<UseAsCollisionModel/>
-	</Visualization>
-</ManipulationObject>

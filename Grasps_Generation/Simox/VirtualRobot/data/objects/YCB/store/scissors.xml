@@ -1,6 +1,0 @@
-<ManipulationObject name='scissors'>
-	<Visualization>
-		<File type='inventor'>../stl/scissors.stl</File>
-		<UseAsCollisionModel/>
-	</Visualization>
-</ManipulationObject>
