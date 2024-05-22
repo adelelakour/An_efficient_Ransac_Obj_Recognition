@@ -9,8 +9,8 @@
 //#include <ippcore.h>
 #include <pthread.h>
 #include <random>
-
-
+#include<bits/stdc++.h>
+#include<list>
 
 ObjRecRANSAC::ObjRecRANSAC(double pairwidth, double voxelsize, double relNumOfPairsInHashTable)
         : mModelDatabase(pairwidth, voxelsize) {
@@ -27,7 +27,7 @@ ObjRecRANSAC::ObjRecRANSAC(double pairwidth, double voxelsize, double relNumOfPa
     mAbsZDistThresh = 1.5 * voxelsize;
     mIntersectionFraction = 0.05;
 
-    mNumOfThreads = 2;
+    mNumOfThreads = 1;
     mNumOfHypotheses = 0;
     mUseAbsoluteObjSize = false;
 
@@ -184,6 +184,14 @@ bool compareOctreeNodesByCenter(const OctreeNode* a, const OctreeNode* b) {
     return false; // Nodes have the same center
 }
 
+
+//*******************
+//*********
+double distance(const double p1[3], const double p2[3]) {
+    return std::sqrt(std::pow(p1[0] - p2[0], 2) +
+                     std::pow(p1[1] - p2[1], 2) +
+                     std::pow(p1[2] - p2[2], 2));
+}
 //=============================================================================================================================
 void ObjRecRANSAC::doRecognition(vtkPoints *scene, double successProbability, list<PointSetShape *> &out) {
 
@@ -255,18 +263,36 @@ void ObjRecRANSAC::doRecognition(vtkPoints *scene, double successProbability, li
     // Sample the oriented point pairs
     this->sampleOrientedPointPairs(leaves, numOfIterations, mSampledPairs);
 
-    //✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
-    // So far, I get the same (rand_pos), the same (leaves[i]) , sampled Pairs at every run ✓
-    //✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+
 
 
     // Generate the object hypotheses
-    this->generateHypotheses(mSampledPairs);
+    this->generateHypotheses(mSampledPairs);  //# generated Hypotheses are fixed
+
     cout << "number of sampled pairs : " << mSampledPairs.size() << endl; // added by me
 
+    //✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+    // So far, I get the same (rand_pos), the same (leaves[i]) , sampled Pairs, generateHypotheses  at every run ✓
+    //✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓✓
+
     list<AcceptedHypothesis> accepted_hypotheses;
+
     // Accept hypotheses
     this->acceptHypotheses(accepted_hypotheses);
+
+    // written by me
+/*     while(accepted_hypotheses.size() >1)
+     {
+         accepted_hypotheses.pop_front();
+     }*/
+
+  /* for (auto hypo : accepted_hypotheses)
+    {
+        auto iter = accepted_hypotheses.begin();
+        iter ++;
+        accepted_hypotheses.erase(iter, accepted_hypotheses.end());
+    }*/
+
     // Convert the accepted hypotheses to shapes
     this->hypotheses2Shapes(accepted_hypotheses, mShapes);
 
@@ -274,6 +300,8 @@ void ObjRecRANSAC::doRecognition(vtkPoints *scene, double successProbability, li
     list<ORRPointSetShape *> detectedShapes;
     this->gridBasedFiltering(mShapes, detectedShapes);
 
+    //write by me
+    //AcceptedHypothesis best_hypothesis = accepted_hypotheses.begin()->rigid_transform;
 
     for (auto shape : detectedShapes)
     {
@@ -313,6 +341,8 @@ void ObjRecRANSAC::doRecognition(vtkPoints *scene, double successProbability, li
     cout << "It took " << recognitionDuration.count() << " Second to recognize the objects " << endl;
 
 }
+
+
 //=============================================================================================================================
 
 void ObjRecRANSAC::sampleOrientedPointPairs(OctreeNode **leaves1, int numOfLeaves, list<OrientedPair> &pairs) {
@@ -361,11 +391,16 @@ void ObjRecRANSAC::sampleOrientedPointPairs(OctreeNode **leaves1, int numOfLeave
         // Get the node point
         point2 = data2->getPoint();
 
-        cout << "point 1 is : " << *point1 << " & point 2 is : " << *point2 << endl;
+        //cout << "point 1 is : " << *point1 << " & point 2 is : " << *point2 << endl;
         // Save the sampled point pair
         pairs.push_back(OrientedPair(point1, normal1, point2, normal2));
 
+        pairs.sort([](const OrientedPair &a, const OrientedPair &b) {
+            return distance(a.p1, a.p2) < distance(b.p1, b.p2);
+        });
+
         // I sample the same pairs at every run (confirmed)
+
     }
 
 #ifdef OBJ_REC_RANSAC_VERBOSE
@@ -396,12 +431,16 @@ void ObjRecRANSAC::generateHypotheses(const list<OrientedPair> &pairs) {
     for (i = 0, pair = pairs.begin(); pair != pairs.end(); ++i, ++pair) {
         // Use normals and points to compute a hash table key
         key_gen.computeHashTableKey3((*pair).p1, (*pair).n1, (*pair).p2, (*pair).n2, hashTableKey);
+
+        //### p1, n1, p2, n2  are fixed at every trial
+
         // Get the cell and its neighbors based on 'key'
         int numOfFullNeighCells = mModelDatabase.getHashTable()->getNeighbors(hashTableKey, neigh_cells);
         // If the cell with 'key' has any full neighbors -> check them!
         if (numOfFullNeighCells)
             this->generateHypothesesForPair((*pair).p1, (*pair).n1, (*pair).p2, (*pair).n2,
                                             neigh_cells, numOfFullNeighCells, i);
+        // (generateHypothesesForPair) returns fixed rigid transformations
 
 #ifdef OBJ_REC_RANSAC_VERBOSE
         printf("\r%.1lf%% ", ((double) (i + 1)) * factor);
@@ -416,7 +455,7 @@ void ObjRecRANSAC::generateHypotheses(const list<OrientedPair> &pairs) {
     mRigidTransforms = new double[12 * mNumOfHypotheses];
     mPointSetPointers = new const double *[mNumOfHypotheses];
     mPairIds = new int[mNumOfHypotheses];
-    cout << "number of Hypotheses is : " << mNumOfHypotheses << endl;  //added by adel
+    cout << "number of Hypotheses is : " << mNumOfHypotheses << endl;
     mModelEntryPointers = new DatabaseModelEntry *[mNumOfHypotheses];
 
     double *rigid_transform = mRigidTransforms;
@@ -465,6 +504,7 @@ void ObjRecRANSAC::generateHypothesesForPair(const double *scenePoint1, const do
                 double *rigid_transform = new double[12];
                 mOptTransform.getRigidTransform(modelPoint1, modelNormal1, modelPoint2, modelNormal2,
                                                 scenePoint1, sceneNormal1, scenePoint2, sceneNormal2, rigid_transform);
+                // returned (getRigidTransform) is fixed
 
                 ++mNumOfHypotheses;
                 // Save the current object hypothesis
@@ -541,7 +581,9 @@ void ObjRecRANSAC::acceptHypotheses(list<AcceptedHypothesis> &acceptedHypotheses
     const double **model_points = mPointSetPointers;
     DatabaseModelEntry **model_entries = mModelEntryPointers;
     const int *pair_ids = mPairIds;
+    cout << "*pair_ids is .. " << *pair_ids << endl;
     int i, numOfTransforms = mNumOfHypotheses / mNumOfThreads, num_of_pairs = (int) mSampledPairs.size();
+
 
     // Stuff for the threads
     ThreadInfo *thread_info = new ThreadInfo[mNumOfThreads];
@@ -588,6 +630,7 @@ void ObjRecRANSAC::acceptHypotheses(list<AcceptedHypothesis> &acceptedHypotheses
     int k;
 
     // For all pairs
+
     for (i = 0; i < num_of_pairs; ++i) {
         accepted.match = 0;
 
@@ -602,6 +645,7 @@ void ObjRecRANSAC::acceptHypotheses(list<AcceptedHypothesis> &acceptedHypotheses
         }
         if (accepted.match > 0)
             acceptedHypotheses.push_back(accepted);
+
     }
 
 #ifdef OBJ_REC_RANSAC_VERBOSE
@@ -612,6 +656,21 @@ void ObjRecRANSAC::acceptHypotheses(list<AcceptedHypothesis> &acceptedHypotheses
     // Cleanup
     delete[] thread_info;
     delete[] threads;
+
+    cout << " acceptedHypotheses SIZE : " << acceptedHypotheses.size() << endl;
+
+    for (auto hypo : acceptedHypotheses)
+    {
+        cout << "Hypo : \n" << hypo.rigid_transform[0] << " , " << hypo.rigid_transform[1] << " , "
+                << hypo.rigid_transform[2] << " , " << hypo.rigid_transform[3] << " , "
+                << hypo.rigid_transform[4] << " , " << hypo.rigid_transform[5] << " , "
+                << hypo.rigid_transform[6] << " , " << hypo.rigid_transform[7] << " , "
+                << hypo.rigid_transform[8] << " , " << hypo.rigid_transform[9] << " , "
+                << hypo.rigid_transform[10] << " , " << hypo.rigid_transform[11] << endl;
+        cout << "Hypo match score : " << hypo.match << endl;
+    }
+    cout << "____________________________________ " << endl;
+
 }
 
 //=============================================================================================================================

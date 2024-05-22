@@ -132,7 +132,7 @@ void saveGraspingDataForPanda(const std::string& label, std::array<double, 16>  
 void objrec_func(vtkPoints* IN_VTKscene, std::atomic<bool> &exitFlag, std::atomic<bool> &performRecognition,
                        bool visualizeAllScenePoints, std::string const &modelDir) {
 
-    ObjRecRANSAC objrec(40.0/*pair width*/, 4.5/*voxel size*/, 0.5/*pairs to save*/);
+    ObjRecRANSAC objrec(50.0/*pair width*/, 4.5/*voxel size*/, 0.5/*pairs to save*/);
     objrec.setVisibility(0.28); // 0.28
     objrec.setRelativeNumberOfIllegalPoints(0.02);
     objrec.setRelativeObjectSize(0.06);

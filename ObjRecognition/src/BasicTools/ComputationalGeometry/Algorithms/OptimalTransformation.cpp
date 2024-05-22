@@ -98,6 +98,8 @@ void OptimalTransformation::getRigidTransform(const double *a1, const double *a1
 		const double *a2, const double *a2_n, const double *b2, const double* b2_n, double* rig) const
 {
 	// Some local variables
+    // a1,a1_n, etc. are fixed
+
 	double o1[3], o2[3], x1[3], x2[3], y1[3], y2[3], z1[3], z2[3], tmp1[3], tmp2[3], Ro1[3];
 	Matrix invFrame1(3, 3), rot(3, 3);
 
@@ -134,11 +136,14 @@ void OptimalTransformation::getRigidTransform(const double *a1, const double *a1
 
 	// Construct the homogeneous 'out' matrix
 	Matrix::copy3x3(rot.getm(), rig);
+
 	// The rotated origin of the first coordinate frame
 	Matrix::mult3x3(rot.getm(), o1, Ro1);
 	rig[9]  = o2[0] - Ro1[0];
 	rig[10] = o2[1] - Ro1[1];
 	rig[11] = o2[2] - Ro1[2];
+
+    // rig is contant at every run
 }
 
 //==========================================================================================================================
