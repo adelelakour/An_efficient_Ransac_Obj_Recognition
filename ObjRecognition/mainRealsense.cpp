@@ -17,10 +17,6 @@
 #include <unordered_map>
 #include <array>
 
-// PCL 
-#include <pcl/io/ply_io.h>
-#include <pcl/point_types.h>
-
 // RealSense
 #include <librealsense2/rs.hpp>
 #include "example.hpp"
@@ -425,7 +421,7 @@ int main() {
     uint16_t mGamma[2048];
     srand(2);
 
-    std::string SAVED_IN_SCENE = "Apple_Soda_Drill.vtk";
+    std::string SAVED_IN_SCENE = "../files/Apple_Soda_Drill.vtk";
     vtkPoints* IN_vtk_pointCloud = readVTKPointCloud(SAVED_IN_SCENE);
 
     std::atomic<bool> exitFlag(false);

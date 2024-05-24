@@ -1,16 +1,15 @@
 project(Kinect3dObjRec)
 cmake_minimum_required(VERSION 3.20)
 
-set(VTK_DIR ${CMAKE_CURRENT_LIST_DIR}/vtk-5.10.0)
+set(VTK_DIR ${CMAKE_CURRENT_LIST_DIR}/vtk-install/lib/vtk-5.10)
 
 set (MODEL_DIR ${CMAKE_SOURCE_DIR}/models/vtk/)
 
-find_package(PCL 1.13 REQUIRED)
 cmake_policy(SET CMP0053 OLD)
 find_package(VTK)
 find_package(OpenCV REQUIRED)
 find_package(realsense2 REQUIRED)
-
+find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 
 message("This program uses VTK ${VTK_DIR} .. ")
 
@@ -20,7 +19,7 @@ If VTK is installed but cmake can not find it, set the VTK_DIR entry to the fold
 ENDIF(NOT VTK_FOUND)
 set(vtk_LIBS vtkIO vtkCommon vtkRendering pthread rt GL GLU glut)
 
-#set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 find_package(OpenCV REQUIRED COMPONENTS highgui)
 
 IF(NOT OpenCV_FOUND)
@@ -37,12 +36,8 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 
-include_directories(${PCL_INCLUDE_DIRS})
 include_directories(/usr/local/include/AndreiUtils)
 include_directories(/usr/local/include/nlohmann)
-
-link_directories(${PCL_LIBRARY_DIRS})
-add_definitions(${PCL_DEFINITIONS})
 
 # inherit all CMAKE_CXX_FLAGS in subprojects
 add_subdirectory(src/BasicTools)
@@ -52,7 +47,7 @@ add_subdirectory(src/ObjRecRANSACVis)
 add_subdirectory(src/VtkBasics)
 add_subdirectory(src/VtkVisual)
 
-include_directories(${PCL_INCLUDE_DIRS} ${CMAKE_BINARY_DIR} /include/json/include/nlohmann /usr/local/include/AndreiUtils)
+include_directories(${CMAKE_BINARY_DIR} /include/json/include/nlohmann /usr/local/include/AndreiUtils)
 
 
 message("VTK LIB DIR: ${VTK_LIBRARY_DIRS}")
@@ -85,11 +80,11 @@ target_link_libraries(RealsenseObjRec
         BasicTools
         ${OpenCV_LIBS}
         ${AndreiUtils_LIBRARY}
-        ${PCL_LIBRARIES}
         OpenNI
         realsense2
         glfw
         ${OPENGL_LIBRARIES}
+        Eigen3::Eigen
 )
 
 target_link_directories(RealsenseObjRec PUBLIC ${VTK_LIBRARY_DIRS})
