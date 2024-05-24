@@ -347,6 +347,7 @@ void loadModels(ObjRecRANSAC &objrec, list<UserData *> &userDataList, list<vtkPo
 
 vtkPoints *preprocessScene(vtkPoints *in, double depthThreshold, bool removePlane) {
     vtkPoints *nearScene, *out = vtkPoints::New(VTK_DOUBLE);
+
     bool withLimitDepthThreshold = depthThreshold > 0.0;
     if (withLimitDepthThreshold) {
         double p[3];
@@ -354,7 +355,7 @@ vtkPoints *preprocessScene(vtkPoints *in, double depthThreshold, bool removePlan
 
         for (int i = 0; i < in->GetNumberOfPoints(); ++i) {
             in->GetPoint(i, p);
-            if (p[2] <= depthThreshold) {
+            if (p[2] <= depthThreshold ) {
                 nearScene->InsertNextPoint(p);
             }
         }
@@ -397,6 +398,23 @@ vtkPoints *preprocessScene(vtkPoints *in, double depthThreshold, bool removePlan
     if (withLimitDepthThreshold) {
         nearScene->Delete();
     }
+
+
+    for (int i = 0; i < out->GetNumberOfPoints(); ++i) {
+        double p[3];
+        out->GetPoint(i, p);
+        if (p[0] < -500)
+        {
+            out->SetPoint(i, p);
+        }
+
+    }
+
+
+
+
+
+
     return out;
 }
 
