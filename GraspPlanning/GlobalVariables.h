@@ -1,0 +1,8 @@
+//
+// Created by adel on 31.05.24.
+//
+
+#ifndef GRASPER_GLOBALVARIABLES_H
+#define GRASPER_GLOBALVARIABLES_H
+
+#endif //GRASPER_GLOBALVARIABLES_H
